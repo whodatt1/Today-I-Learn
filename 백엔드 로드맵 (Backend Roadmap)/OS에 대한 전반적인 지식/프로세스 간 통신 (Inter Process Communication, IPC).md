@@ -16,7 +16,7 @@
 ### 1. 공유 메모리 (Shared Memory)
 
 ![](https://t1.daumcdn.net/cfile/tistory/99A8064C5AD5EFB82C)
-> 공유 메모리 구조 (출처 : https://t1.daumcdn.net/cfile/tistory/99A8064C5AD5EFB82C)
+> 공유 메모리 (출처 : https://t1.daumcdn.net/cfile/tistory/99A8064C5AD5EFB82C)
 
 -  커널에 생성된 공유 메모리를 통해서 프로세스 간 데이터를 공유합니다.
 -  프로세스가 공유 메모리 할당을 커널에 요청하면 커널은 해당 프로세스에 메모리 공간을 할당합  니다. 이후 어떤 프로세스건 해당 메모리 영역에 접근 할 수 있습니다.
@@ -26,3 +26,11 @@
 
 ### 2.  파이프 (Pipe)
 
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F247CBC4357187A3411)
+> 파이프 (출처 : https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F247CBC4357187A3411)
+
+통신을 위한 **메모리 공간(버퍼)** 을 생성하여 프로세스가 데이터를 주고 받을 수 있게 한다.
+
+1.  익명 파이프 (Anonymous PIPE)
+
+-  
