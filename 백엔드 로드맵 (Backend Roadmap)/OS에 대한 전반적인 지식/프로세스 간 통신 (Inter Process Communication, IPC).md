@@ -29,8 +29,8 @@
 ![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F247CBC4357187A3411)
 > 파이프 (출처 : https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F247CBC4357187A3411)
 
-통신을 위한 **메모리 공간(버퍼)** 을 생성하여 프로세스가 데이터를 주고 받을 수 있게 한다.
+통신을 위한 **메모리 공간(버퍼)** 을 생성하여 프로세스가 데이터를 주고 받을 수 있게 합니다.
 
 1.  익명 파이프 (Anonymous PIPE)
 
--  
+-  두 개의 프로세스를 연결하게 되고, 하나의 프로세스는 데이터를 쓰기만, 다른 하나는 데이터를 읽기만 할 수 있습니다. 
