@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "d09b150250839eb2",
+        "id": "571f0dab954d34fe",
         "type": "tabs",
         "children": [
           {
-            "id": "432072a8787f4b1f",
+            "id": "e305831ad0f79738",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -73,8 +73,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
@@ -155,9 +154,10 @@
       "command-palette:명령어 팔레트 열기": false
     }
   },
-  "active": "432072a8787f4b1f",
+  "active": "e305831ad0f79738",
   "lastOpenFiles": [
     "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/OS에 대한 전반적인 지식.md",
+    "Paste.md",
     "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신 (Inter Process Communication, IPC).md",
     "백엔드 로드맵 (Backend Roadmap)/백엔드 로드맵 (Backend Roadmap).md",
     "무제 파일.md",

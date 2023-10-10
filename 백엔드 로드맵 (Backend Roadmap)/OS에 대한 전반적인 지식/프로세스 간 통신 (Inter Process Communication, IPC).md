@@ -46,3 +46,12 @@
 -  익명 파이프의 단점으로 같은 PPID(같은 부모 프로세스)를 가지는 프로세스들 사이에서만 통신이 가능하지만, 네임드 파이프는 그 부분을 해결한, 익명 파이프의 확장이라고 할 수 있습니다.
 -  장점
 	-  네임드 파이프는 부모 프로세스와 무관하게 전혀 다른 모든 프로세스들 사이에서 통신이 가능합니다. 그 이유는 프로세스 통신을 위해 이름이 있는 파일을 사용하기 때문입니다.
+-  단점
+	-  익명 파이프와 동일하게 읽기/쓰기가 동시에 가능하지 않습니다. read-only 혹은 write-only만 가능합니다. 하지만 통신 선로가 파일로 존재하므로 하나를 읽기 전용으로 열고 다른 하나를 쓰기 전용으로 열어서 이러한 문제를 해결 할 수 있습니다.
+	-  전 이중 통신을 위해서는 결국 익명 파이프와 같이 두 개의 FIFO 파일을 필요하게 됩니다.
+
+### 3.  메시지 큐 (Message Queue)
+
+![](https://mblogthumb-phinf.pstatic.net/MjAyMDA4MDJfMTgw/MDAxNTk2MzU0NTMyMDAy.9sHra7poMm6WEOD92dZgqFgDEx57Gs5WHe-RjuFJm2kg.l52BvVDYDyaHS9OEYtgMp04zPTEdzuF7UjAbM4Dg8OYg.PNG.dkwlsrhstm/image.png?type=w800)
+>  메시지 큐 (출처 : https://mblogthumb-phinf.pstatic.net/MjAyMDA4MDJfMTgw/MDAxNTk2MzU0NTMyMDAy.9sHra7poMm6WEOD92dZgqFgDEx57Gs5WHe-RjuFJm2kg.l52BvVDYDyaHS9OEYtgMp04zPTEdzuF7UjAbM4Dg8OYg.PNG.dkwlsrhstm/image.png?type=w800)
+
