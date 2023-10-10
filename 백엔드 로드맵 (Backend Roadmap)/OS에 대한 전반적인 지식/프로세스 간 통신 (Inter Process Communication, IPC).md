@@ -55,3 +55,5 @@
 ![](https://mblogthumb-phinf.pstatic.net/MjAyMDA4MDJfMTgw/MDAxNTk2MzU0NTMyMDAy.9sHra7poMm6WEOD92dZgqFgDEx57Gs5WHe-RjuFJm2kg.l52BvVDYDyaHS9OEYtgMp04zPTEdzuF7UjAbM4Dg8OYg.PNG.dkwlsrhstm/image.png?type=w800)
 >  메시지 큐 (출처 : https://mblogthumb-phinf.pstatic.net/MjAyMDA4MDJfMTgw/MDAxNTk2MzU0NTMyMDAy.9sHra7poMm6WEOD92dZgqFgDEx57Gs5WHe-RjuFJm2kg.l52BvVDYDyaHS9OEYtgMp04zPTEdzuF7UjAbM4Dg8OYg.PNG.dkwlsrhstm/image.png?type=w800)
 
+-  선입선출의 자료 구조를 가지는 통신 설비로 커널에서 관리합니다. 입출력 방식으로 보자면 네임드 파이프와 동일하다고 할 수 있습니다.
+-  네임드 파이프와 다른 점이 있다면 네임드 파이프가 데이터의 흐름이라면 메시지 큐는 메모리 공간이라는 점 입니다. 파이프가 아닌, 어디에서나 물건을 꺼낼 수 있는 컨테이널 벨트라고 볼 수 있습니다.
