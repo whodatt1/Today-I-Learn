@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "a8cbefda606a6c65",
+        "id": "d09b150250839eb2",
         "type": "tabs",
         "children": [
           {
-            "id": "60a02bda687bb65d",
+            "id": "432072a8787f4b1f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신.md",
+                "file": "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신 (Inter Process Communication.md",
                 "mode": "source",
                 "source": false
               }
@@ -73,8 +73,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
@@ -94,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신.md",
+                "file": "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신 (Inter Process Communication.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신.md",
+                "file": "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신 (Inter Process Communication.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신.md"
+                "file": "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신 (Inter Process Communication.md"
               }
             }
           }
@@ -155,12 +154,13 @@
       "command-palette:명령어 팔레트 열기": false
     }
   },
-  "active": "60a02bda687bb65d",
+  "active": "432072a8787f4b1f",
   "lastOpenFiles": [
-    "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신.md",
     "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/OS에 대한 전반적인 지식.md",
-    "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식",
+    "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신 (Inter Process Communication.md",
     "백엔드 로드맵 (Backend Roadmap)/백엔드 로드맵 (Backend Roadmap).md",
+    "무제 파일.md",
+    "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식",
     "Context/spacesLastSync.log",
     "Context",
     "백엔드 로드맵 (Backend Roadmap)/무제 파일.md",
