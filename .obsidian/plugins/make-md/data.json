@@ -59,7 +59,8 @@
   "expandedSpaces": [
     "/",
     null,
-    "Study-Note"
+    "Study-Note",
+    null
   ],
   "expandFolderOnClick": true,
   "openFolders": [],

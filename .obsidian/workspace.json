@@ -11,8 +11,12 @@
             "id": "60a02bda687bb65d",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -90,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -106,6 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -127,7 +133,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "백엔드 로드맵 (Backend Roadmap)/OS에 대한 전반적인 지식/프로세스 간 통신.md"
+              }
             }
           }
         ]
