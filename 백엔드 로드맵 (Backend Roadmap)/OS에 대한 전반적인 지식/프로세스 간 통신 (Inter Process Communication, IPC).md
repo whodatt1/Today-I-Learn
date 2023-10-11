@@ -59,3 +59,8 @@
 -  네임드 파이프와 다른 점이 있다면 네임드 파이프가 데이터의 흐름이라면 메시지 큐는 메모리 공간이라는 점 입니다. 파이프가 아닌, 어디에서나 물건을 꺼낼 수 있는 컨테이널 벨트라고 볼 수 있습니다.
 
 ### 4.  소켓 (Socket)
+
+![](https://velog.velcdn.com/images%2Fchappi%2Fpost%2Ff6d8042a-1393-469e-b0f4-afc4ca908cd9%2F6.png)
+> 소켓 (출처 : https://velog.velcdn.com/images%2Fchappi%2Fpost%2Ff6d8042a-1393-469e-b0f4-afc4ca908cd9%2F6.png) 
+
+-  
