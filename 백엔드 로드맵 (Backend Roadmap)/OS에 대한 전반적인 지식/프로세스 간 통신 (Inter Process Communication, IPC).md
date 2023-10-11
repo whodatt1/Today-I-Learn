@@ -84,4 +84,12 @@
 ### 6.  세마포어 (Semaphore)
 
 -  다른 IPC 설비들이 대부분 프로세스 간 메시지 전송을 목적으로 하는데 반해, 세마포어는 프로세스 간 데이터를 동기화하고 보호하는데 목적을 둡니다.
-- 
+-  공유된 자원에 여러개의 프로세스가 동시에 접근하면 안되며, 한번에 하나의 프로세스만 접근 가능하도록 할 때 사용합니다.
+
+### 참고한 블로그
+
+-  https://dar0m.tistory.com/233
+-  https://jwprogramming.tistory.com/54
+-  https://velog.io/@chappi/OS%EB%8A%94-%ED%95%A0%EA%BB%80%EB%8D%B0-%ED%95%B5%EC%8B%AC%EB%A7%8C-%ED%95%A9%EB%8B%88%EB%8B%A4.-7%ED%8E%B8-IPC-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4-%EA%B0%84-%ED%86%B5%EC%8B%A0
+-  https://velog.io/@yanghl98/OS%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C-IPC%EB%9E%80
+-  https://doitnow-man.tistory.com/68
