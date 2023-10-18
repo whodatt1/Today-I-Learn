@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StopWatch;
 
-import com.example.demo.aop.CoreConcern;
-import com.example.demo.aop.CoreConcernImpl;
+import com.example.demo.aop.service.CoreConcern;
+import com.example.demo.aop.serviceimpl.CoreConcernImpl;
 
 @SpringBootTest
 class SpringAopApplicationTests {
 	
 	@Autowired
-	private CoreConcernImpl coreConcernImpl; 
+	private CoreConcern coreConcern; 
 	
 	@Test
 	@DisplayName("Not AOP 테스트")
@@ -28,7 +28,7 @@ class SpringAopApplicationTests {
 		// 부가적인 로직 종료
 		
 		// 비즈니스 로직 시작
-		coreConcernImpl.businessLogic(10000);
+		coreConcern.businessLogic(10000);
 		// 비즈니스 로직 종료
 		
 		// 부가적인 로직 시작
@@ -59,7 +59,7 @@ class SpringAopApplicationTests {
 						sw.start();
 						// 부가적인 로직 종료
 						
-						int result = (int) method.invoke(coreConcernImpl, args);
+						int result = (int) method.invoke(coreConcern, args);
 						
 						// 부가적인 로직 시작
 						sw.stop();

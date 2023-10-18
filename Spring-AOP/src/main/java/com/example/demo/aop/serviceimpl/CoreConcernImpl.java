@@ -1,6 +1,8 @@
-package com.example.demo.aop;
+package com.example.demo.aop.serviceimpl;
 
 import org.springframework.stereotype.Service;
+
+import com.example.demo.aop.service.CoreConcern;
 
 /*
  * AOP => Aspect Oriented Programming 번역하면 관점지향 프로그래밍이다.
