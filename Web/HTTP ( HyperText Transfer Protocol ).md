@@ -84,7 +84,31 @@ Request Headers 부분은 리소스를 요청하는 경로 즉, 요청하고자 
 
 HTTP Response의 헤더 부분으로 선택 사항으로 가져온 리소스가 포함되는 본문입니다.
 
+### HTTP STATUS CODE
+
+HTTP 응답 상태 코드는 HTTP 요청에 대한 성공과 실패 여부를 알려줍니다.
+
+-  10x : 정보 확인
+-  20x : 통신 성공
+-  30x : 리다이렉트
+-  40x : 클라이언트 오류
+-  50x : 서버 오류
+
+### 200 번 대 : 통신 성공
+![![/#^Table1]]
+### 300 번 대 : 리다이렉트
+
+![![/#^Table2]]
+### 400 번 대 : 클라이언트 오류
+
+![![/#^Table3]]
+### 500 번 대 : 서버 오류
+
+![![/#^Table4]]
+
 ### 참고한 사이트
 
 -  https://developer.mozilla.org/ko/docs/Web/HTTP/Overview
 -  https://surprisecomputer.tistory.com/54
+-  https://github.com/gyoogle/tech-interview-for-developer/blob/master/Web/HTTP%20status%20code.md
+-  https://developer.mozilla.org/ko/docs/Web/HTTP/Status
