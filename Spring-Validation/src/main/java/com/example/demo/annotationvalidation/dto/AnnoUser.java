@@ -6,13 +6,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class AnnoUser {
 	@NotBlank(message = "이메일을 입력해주세요.")
 	@Email
