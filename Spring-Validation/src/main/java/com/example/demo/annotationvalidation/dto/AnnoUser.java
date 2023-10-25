@@ -18,7 +18,7 @@ public class AnnoUser {
 	private String email;
 	
 	@NotBlank(message = "패스워드를 입력해주세요.")
-	@Pattern(regexp="[a-zA-Z1-9]{8,12}", message = "비밀번호는 영어와 숫자로 포함해서 8~12자리 이내로 입력해주세요.")
+	@Pattern(regexp="[a-zA-Z1-9]{8,12}", message = "비밀번호는 대 소문자 영어와 숫자를 포함해서 8~12자리 이내로 입력해주세요.")
 	private String password;
 	
 	@Max(value = 90)

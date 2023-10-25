@@ -1,8 +1,10 @@
 package com.example.demo.response;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class RestResponse {
 	
 	private boolean success;
