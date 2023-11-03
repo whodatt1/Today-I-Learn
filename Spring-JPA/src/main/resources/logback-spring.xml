@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>%d %5p [%c] %m%n</Pattern>
+		</encoder>
+	</appender>
+	<logger name="com.example.mpi" level="INFO" appender-ref="console"/>
+	<logger name="jdbc" level="OFF"/>
+	<logger name="jdbc.connection" level="OFF"/>
+	<logger name="jdbc.audit" level="OFF"/>
+	<logger name="jdbc.sqlonly" level="INFO" appender-ref="console"/>
+	<logger name="jdbc.resultsettable" level="INFO" appender-ref="console"/>
+	<logger name="org.springframework" level="error"/>
+	<logger name="org.springframework.jdbc" level="error"/>
+	
+	<root level="INFO">
+		<appender-ref ref="console" />
+	</root>
+</configuration>
