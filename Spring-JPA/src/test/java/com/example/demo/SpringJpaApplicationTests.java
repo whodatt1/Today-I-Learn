@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,13 @@ class SpringJpaApplicationTests {
 		System.out.println("이메일 : ");
 		
 		String userEmail = br.readLine();
+		
+		User existsUser = userRepository.findFirst1ByuserEmail(userEmail);
+		
+		if (existsUser != null && existsUser.getUserEmail().equals(userEmail)) {
+			System.out.println("이메일이 중복됩니다. 다른 이메일을 입력해주세요.");
+			return;
+		}
 		
 		System.out.println("비밀번호 : ");
 		
@@ -77,5 +86,51 @@ class SpringJpaApplicationTests {
 		User user = userRepository.findFirst1ByuserNameLike(userName);
 		
 		System.out.println("[FindOneByUserName] : " + user.getUserEmail() + " | " + user.getUserName());
+	}
+	
+	@Test
+	void updateFind1ByEmail() throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		System.out.println("수정할 이메일을 입력하세요. : ");
+		
+		String userEmail = br.readLine();
+		
+		User existsUser = userRepository.findFirst1ByuserEmail(userEmail);
+		
+		if (existsUser == null) {
+			System.out.println("계정이 존재하지 않습니다. 다른 이메일을 입력해주세요.");
+			return;
+		}
+		
+		System.out.println("수정할 비밀번호를 입력하세요. : ");
+		String newPassword = br.readLine();
+		
+		System.out.println("수정할 이름을 입력하세요. : ");
+		String newUserName = br.readLine();
+		
+		System.out.println("수정할 성별을 입력하세요. : ");
+		String newGender = br.readLine();
+		
+		if (!newGender.equals("M") && !newGender.equals("W")) {
+			System.out.println("W , M 둘 중 하나로 입력해주세요.");
+			return;
+		}
+		
+		System.out.println("삭제 여부를 선택 하세요. ( Y or N 으로 입력 ) : ");
+		String newDelYn = br.readLine();
+		
+		if (!newDelYn.equals("Y") && !newDelYn.equals("N")) {
+			System.out.println("Y , N 둘 중 하나로 입력해주세요.");
+			return;
+		}
+		
+		existsUser.setPassword(newPassword);
+		existsUser.setUserName(newUserName);
+		existsUser.setGender(newGender);
+		existsUser.setDelYn(newDelYn);
+		existsUser.setModDt(LocalDateTime.now());
+		
+		userRepository.save(existsUser);
 	}
 }
