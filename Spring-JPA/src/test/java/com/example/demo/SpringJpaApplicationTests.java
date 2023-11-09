@@ -89,7 +89,6 @@ class SpringJpaApplicationTests {
 	}
 	
 	@Test
-	// 여기 트랜잭셔널 걸면 안되는 이유 찾기
 	void updateFind1ByEmail() throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
