@@ -23,6 +23,7 @@ class SpringJpaApplicationTests {
 	private UserRepository userRepository;
 
 	@Test
+	// 로우에 INSERT
 	void saveUser() throws IOException { // 테이블에 새로운 데이터 로우를 저장한다.
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
@@ -70,6 +71,13 @@ class SpringJpaApplicationTests {
 	}
 	
 	@Test
+	// 모든 로우 생성일 내림차순으로 데이터 받기
+	void findAllOrderByRegDtDesc() {
+		List<User> userList = userRepository.findAllByOrderByRegDtDesc();
+		userList.forEach(user -> System.out.println("[OrderByRegDtAllUser] : " + user.getUserEmail() + " | " + user.getUserName()));
+	}
+	
+	@Test
 	void findAllUser() { // 저장된 모든 데이터를 가져온다.
 		List<User> userList = userRepository.findAll();
 		userList.forEach(user -> System.out.println("[AllUser] : " + user.getUserEmail() + " | " + user.getUserName()));
@@ -81,14 +89,15 @@ class SpringJpaApplicationTests {
 		
 		System.out.println("이름을 입력하세요. : ");
 		
-		String userName = "%" + br.readLine() + "%";
+		String userName = br.readLine();
 		
-		User user = userRepository.findFirst1ByuserNameLike(userName);
+		User user = userRepository.findFirst1ByuserNameContaining(userName);
 		
 		System.out.println("[FindOneByUserName] : " + user.getUserEmail() + " | " + user.getUserName());
 	}
 	
 	@Test
+	// EMAIL 키값으로 해당 로우 수정
 	void updateFind1ByEmail() throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
