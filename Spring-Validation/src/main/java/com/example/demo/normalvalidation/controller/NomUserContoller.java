@@ -33,11 +33,11 @@ public class NomUserContoller {
 		StringBuilder builder = new StringBuilder();
 		List<FieldError> fieldErrors = result.getFieldErrors();
         for (FieldError fieldError : fieldErrors) {
-            builder.append("[");
+        	builder.append("[");
             builder.append(fieldError.getField());
-            builder.append("](Àº)´Â ");
+            builder.append("](ì€)ëŠ” ");
             builder.append(fieldError.getDefaultMessage());
-            builder.append(" ÀÔ·ÂµÈ °ª: [");
+            builder.append(" ì…ë ¥ëœ ê°’: [");
             builder.append(fieldError.getRejectedValue());
             builder.append("]");
         }

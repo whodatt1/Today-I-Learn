@@ -7,24 +7,21 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 @Data
 public class AnnoUser {
-	@NotBlank(message = "ÀÌ¸ŞÀÏÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.")
+	@NotBlank(message = "ì´ë©”ì¼ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.")
 	@Email
 	private String email;
 	
-	@NotBlank(message = "ÆĞ½º¿öµå¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.")
-	@Pattern(regexp="[a-zA-Z1-9]{8,12}", message = "ºñ¹Ğ¹øÈ£´Â ´ë ¼Ò¹®ÀÚ ¿µ¾î¿Í ¼ıÀÚ¸¦ Æ÷ÇÔÇØ¼­ 8~12ÀÚ¸® ÀÌ³»·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.")
+	@NotBlank(message = "íŒ¨ìŠ¤ì›Œë“œë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.")
+	@Pattern(regexp="[a-zA-Z1-9]{8,12}", message = "ë¹„ë°€ë²ˆí˜¸ëŠ” ëŒ€ ì†Œë¬¸ì ì˜ì–´ì™€ ìˆ«ìë¥¼ í¬í•¨í•´ì„œ 8~12ìë¦¬ ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì„¸ìš”.")
 	private String password;
 	
 	@Max(value = 90)
 	private int age;
 	
-	@NotBlank(message = "ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä.")
-	@Size(min = 2, max = 8, message = "ÀÌ¸§À» 2~8ÀÚ »çÀÌ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.")
+	@NotBlank(message = "ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.")
+	@Size(min = 2, max = 8, message = "ì´ë¦„ì„ 2~8ì ì‚¬ì´ë¡œ ì…ë ¥í•´ì£¼ì„¸ìš”.")
 	private String name;
 }

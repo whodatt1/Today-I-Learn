@@ -14,31 +14,31 @@ class SpringAopWithAspectJApplicationTests {
 	private CalcService calcService;
 
 	@Test
-	@DisplayName("AOP - Around �׽�Ʈ")
+	@DisplayName("AOP - Around 테스트")
 	void aopAroundTest() {
 		calcService.sum(3, 5);
 	}
 	
 	@Test
-	@DisplayName("AOP - Before �׽�Ʈ")
+	@DisplayName("AOP - Before 테스트")
 	void aopBeforeTest() {
 		calcService.subtract(3, 5);
 	}
 	
 	@Test
-	@DisplayName("AOP - After �׽�Ʈ")
+	@DisplayName("AOP - After 테스트")
 	void aopAfterTest() {
 	    calcService.multiply(3, 10);
 	}
 	
 	@Test
-	@DisplayName("AOP - AfterReturning �׽�Ʈ")
+	@DisplayName("AOP - AfterReturning 테스트")
 	void aopAfterReturningTest() {
 	    calcService.sum(10, 2);
 	}
 	
 	@Test
-	@DisplayName("AOP - AfterReturning �׽�Ʈ")
+	@DisplayName("AOP - AfterReturning 테스트")
 	void aopAfterThrowingTest() {
 	    calcService.divide(10, 0);
 	}
