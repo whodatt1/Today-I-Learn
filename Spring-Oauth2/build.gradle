@@ -16,17 +16,27 @@ repositories {
 }
 
 dependencies {
+	// boot starter
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// config
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+    // jdbc
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    // mysql
     runtimeOnly 'com.mysql:mysql-connector-j'
+    // rest
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
+    // oauth 2.0
     implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
+    // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 }
