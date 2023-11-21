@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import lombok.Getter;
 import lombok.Setter;
 
-// app. 로 시작되는 설정 정보들을 객체로 매핑하는 클래스
+// yml에서 app. 로 시작되는 설정 정보들을 객체로 매핑하는 클래스
 
 @Getter
 @ConfigurationProperties(prefix = "app")
