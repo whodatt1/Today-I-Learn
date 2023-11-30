@@ -2,6 +2,7 @@ package com.example.demo.exception;
 
 import org.springframework.security.core.AuthenticationException;
 
+// 인증 중 오류 발생 시
 public class OAuth2AuthenticationProcessingException extends AuthenticationException {
 	
 	public OAuth2AuthenticationProcessingException(String msg, Throwable t) {
