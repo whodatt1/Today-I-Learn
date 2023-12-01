@@ -1,29 +1,34 @@
 package com.example.demo.dto;
 
+import java.util.Map;
+
 public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
+	
+	private Integer id;
+	
+	public KakaoOAuth2UserInfo(Map<String, Object> attributes) {
+		super((Map<String, Object>) attributes.get("kakao_account"));
+		this.id = (Integer) attributes.get("id");
+	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.id.toString();
 	}
 
 	@Override
 	public String getEmail() {
-		// TODO Auto-generated method stub
-		return null;
+		return (String) attributes.get("email");
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return (String) ((Map<String, Object>) attributes.get("profile")).get("nickname");
 	}
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
-		return null;
+		return (String) ((Map<String, Object>) attributes.get("profile")).get("thumbnail_image_url");
 	}
 	
 }
