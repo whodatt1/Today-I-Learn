@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
 import com.example.demo.normalvalidation.dto.NomUser;
