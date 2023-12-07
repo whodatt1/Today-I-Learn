@@ -9,6 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public abstract class OAuth2UserInfo {
 	
+	// 해당 플랫폼으로부터 받는 정보
 	protected Map<String, Object> attributes;
 	
 	public abstract String getId();
