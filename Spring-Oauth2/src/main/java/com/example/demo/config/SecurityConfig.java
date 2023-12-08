@@ -29,7 +29,7 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 	
-	/* 작성중
+	/*
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
 			.cors()
@@ -50,6 +50,7 @@ public class SecurityConfig {
 			.and()
 			.oauth2Login()
 			.authorizationEndpoint().baseUri("/oauth2/authorization") // 소셜 로그인 URL
+			.authorizationRequestRepository(cookieo)
 			
 	}
 	*/
