@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -9,8 +10,15 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.example.demo.security.AuthEntryPoint;
+import com.example.demo.security.CustomOAuth2UserService;
+import com.example.demo.security.CustomUserDetailsService;
+import com.example.demo.security.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.example.demo.security.OAuth2AuthenticationFailureHandler;
+import com.example.demo.security.OAuth2AuthenticationSuccessHandler;
+import com.example.demo.security.TokenAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,12 +32,39 @@ import lombok.RequiredArgsConstructor;
 		)
 public class SecurityConfig {
 	
+	private final CustomUserDetailsService customUserDetailsService;
+	
+	private final CustomOAuth2UserService customOAuth2UserService;
+	
+	private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+	
+	private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+	
+	@Bean
+	public TokenAuthenticationFilter tokenAuthenticationFilter() {
+		return new TokenAuthenticationFilter();
+	}
+	
+	@Bean
+	public HttpCookieOAuth2AuthorizationRequestRepository cookieOAuth2AuthorizationRequestRepository() {
+		return new HttpCookieOAuth2AuthorizationRequestRepository();
+	}
+	
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+		
+		authProvider.setUserDetailsService(customUserDetailsService);
+		authProvider.setPasswordEncoder(passwordEncoder());
+		
+		return authProvider;
+	}
+ 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
-	/*
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
 			.cors()
@@ -50,8 +85,18 @@ public class SecurityConfig {
 			.and()
 			.oauth2Login()
 			.authorizationEndpoint().baseUri("/oauth2/authorization") // 소셜 로그인 URL
-			.authorizationRequestRepository(cookieo)
-			
+			.authorizationRequestRepository(cookieOAuth2AuthorizationRequestRepository()) // 인증 요청을 쿠키에 저장하고 검색
+			.and()
+			.redirectionEndpoint().baseUri("/oauth2/callback/*") // 소셜 인증 후 Redirect Url
+			.and()
+			.userInfoEndpoint().userService(customOAuth2UserService)
+			.and()
+			.successHandler(oAuth2AuthenticationSuccessHandler) // 인증 성공 시 Handler
+			.failureHandler(oAuth2AuthenticationFailureHandler); // 인증 실패 시 Handler
+		
+		http.authenticationProvider(authenticationProvider());
+		http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+		
+		return http.build();
 	}
-	*/
 }

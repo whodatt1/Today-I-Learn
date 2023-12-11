@@ -8,23 +8,39 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.example.demo.util.TokenProvider;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
-
+// 토큰을 검증하는 필터
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	
 	@Autowired
 	private TokenProvider tokenProvider;
 	
 	@Autowired
-	private CustomUserDetailsService costomCustomUserDetailsService;
+	private CustomUserDetailsService costomUserDetailsService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		String jwt = getJwtFromRequest(request);
+		
+		if (StringUtils.isNotBlank(jwt) && tokenProvider.validateToken(jwt)) {
+			Long userId = tokenProvider.getUserIdFromToken(jwt);
+			
+			UserDetails userDetails = costomUserDetailsService.loadUserById(userId);
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+			
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		}
+		
+		filterChain.doFilter(request, response);
 	}
 	
 	
