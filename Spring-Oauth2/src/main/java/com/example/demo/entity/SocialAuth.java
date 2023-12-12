@@ -21,7 +21,7 @@ import lombok.ToString;
 public class SocialAuth {
 	private String providerId;
 	@Enumerated(value = EnumType.STRING)
-	private AuthProvider authProvider;
+	private AuthProvider provider;
 	private String email;
 	private String name;
 	private String imageUrl;

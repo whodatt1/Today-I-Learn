@@ -79,7 +79,7 @@ public class SecurityConfig {
 			.httpBasic().disable() // Http basic Auth 기반으로 로그인 인증창이 열림 (disable 시 인증창 열리지 않음)
 			.exceptionHandling().authenticationEntryPoint(new AuthEntryPoint()) // 인증, 인가가 되지 않은 요청 시 발생
 			.and()
-			.authorizeRequests()
+			.authorizeHttpRequests()
 			.antMatchers("/auth/**", "/oauth2/**").permitAll() // Security 허용 URL
 			.anyRequest().authenticated() // 그 외엔 인증이 필요
 			.and()

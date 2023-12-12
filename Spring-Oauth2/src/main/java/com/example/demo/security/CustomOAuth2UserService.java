@@ -52,7 +52,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		// DB에 정보가 있다면
 		if (userOptional.isPresent()) {
 			// 다른 플랫폼으로 로그인 한 경우
-			if (!userOptional.get().getSocialAuth().getAuthProvider().equals(com.example.demo.entity.AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
+			if (!userOptional.get().getSocialAuth().getProvider().equals(com.example.demo.entity.AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
 				throw new OAuth2AuthenticationProcessingException("already sign up other provider");
 			}
 			user = updateUser(userOptional.get(), oAuth2UserInfo);
@@ -69,7 +69,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 				.nickname(oAuth2UserInfo.getName())
 				.socialAuth(SocialAuth.builder()
 						.providerId(oAuth2UserInfo.getId())
-						.authProvider(com.example.demo.entity.AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
+						.provider(com.example.demo.entity.AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
 						.email(oAuth2UserInfo.getEmail())
 						.name(oAuth2UserInfo.getName())
 						.imageUrl(oAuth2UserInfo.getImageUrl())

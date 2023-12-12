@@ -5,6 +5,7 @@ import javax.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.User;
@@ -13,7 +14,7 @@ import com.example.demo.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 // Token을검증하는 Filter에서 회원 데이터를 조회해 인증객체로 반환
-@Service
+@Component
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 	

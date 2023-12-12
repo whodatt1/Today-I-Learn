@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -66,7 +66,7 @@ public class User {
 	
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "updated", nullable = false)
+	@Column(name = "moddt", nullable = false)
 	private Date moddt;
 	
 	@Embedded
