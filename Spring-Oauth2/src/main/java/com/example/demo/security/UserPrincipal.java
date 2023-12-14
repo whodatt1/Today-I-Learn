@@ -22,6 +22,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserPrincipal implements OAuth2User, UserDetails {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private long id;
 	private String email;
 	private String password;
