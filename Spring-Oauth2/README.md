@@ -298,9 +298,3 @@ return http.build();
 
 1. http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:8080/auth/token 로 접속하여 카카오 로그인 페이지 접근
 2.  로그인
-
-## 오류사항
-
-![[Pasted image 20231217224147.png]]
-
--  localhost에서 리디렉션한 횟수가 너무 많습니다.
