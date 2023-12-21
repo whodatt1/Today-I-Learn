@@ -298,3 +298,5 @@ return http.build();
 
 1. http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:8080/auth/token 로 접속하여 카카오 로그인 페이지 접근
 2.  로그인
+
+현재 리다이렉트 오류로 인한 수정 작업중..
