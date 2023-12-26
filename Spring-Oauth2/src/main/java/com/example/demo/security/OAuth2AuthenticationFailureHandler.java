@@ -16,12 +16,12 @@ import com.example.demo.util.CookieUtils;
 
 import lombok.RequiredArgsConstructor;
 
+import static com.example.demo.security.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URL_PARAM_COOKIE_NAME;
+
 // 소설 인증의 실패 시 Handler
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-	
-	public static final String REDIRECT_URL_PARAM_COOKIE_NAME = "redirect_uri";
 	
 	private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
@@ -38,7 +38,6 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
 				.build().toUriString();
 		
 		httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequest(request, response);
-		
 		getRedirectStrategy().sendRedirect(request, response, targetUrl);
 	}
 	

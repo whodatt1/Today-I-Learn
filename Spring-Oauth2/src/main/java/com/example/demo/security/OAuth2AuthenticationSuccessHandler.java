@@ -21,12 +21,12 @@ import com.example.demo.util.TokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
+import static com.example.demo.security.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URL_PARAM_COOKIE_NAME;
+
 // 소셜 인증에 성공 했을때 Handler
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-	
-	public static final String REDIRECT_URL_PARAM_COOKIE_NAME = "redirect_uri";
 	
 	private final TokenProvider tokenProvider;
 	
@@ -37,6 +37,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
+		
 		String targetUrl = determineTargetUrl(request, response, authentication);
 		
 		// Http 응답이 이미 보내졌다면

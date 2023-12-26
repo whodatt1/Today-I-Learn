@@ -30,13 +30,15 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 			HttpServletResponse response) {
 		
 		if (authorizationRequest == null) {
-			removeAuthorizationRequest(request);
+			removeAuthorizationRequestCookies(request, response);
 			return;
 		}
 		
 		CookieUtils.addCookie(response, REDIRECT_URL_PARAM_COOKIE_NAME, CookieUtils.serialize(authorizationRequest), cookieExpireSeconds);
 		String redirectAfterLogin = request.getParameter(REDIRECT_URL_PARAM_COOKIE_NAME);
+				
 		if (StringUtils.isNotBlank(redirectAfterLogin)) {
+			
 			CookieUtils.addCookie(response, REDIRECT_URL_PARAM_COOKIE_NAME, redirectAfterLogin, cookieExpireSeconds);
 		}
 		
