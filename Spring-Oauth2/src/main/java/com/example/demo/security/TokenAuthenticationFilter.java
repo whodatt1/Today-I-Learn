@@ -28,7 +28,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		logger.debug("로그테스트1");
+		logger.debug("11111111111111111111111111111111111");
+		
 		String jwt = getJwtFromRequest(request);
+		
 		
 		if (StringUtils.isNotBlank(jwt) && tokenProvider.validateToken(jwt)) {
 			Long userId = tokenProvider.getUserIdFromToken(jwt);

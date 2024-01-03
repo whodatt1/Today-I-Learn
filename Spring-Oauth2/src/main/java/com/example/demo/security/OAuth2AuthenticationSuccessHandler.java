@@ -1,5 +1,7 @@
 package com.example.demo.security;
 
+import static com.example.demo.security.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URL_PARAM_COOKIE_NAME;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
@@ -20,10 +22,10 @@ import com.example.demo.util.CookieUtils;
 import com.example.demo.util.TokenProvider;
 
 import lombok.RequiredArgsConstructor;
-
-import static com.example.demo.security.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URL_PARAM_COOKIE_NAME;
+import lombok.extern.slf4j.Slf4j;
 
 // 소셜 인증에 성공 했을때 Handler
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -42,10 +44,11 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		
 		// Http 응답이 이미 보내졌다면
 		if (response.isCommitted()) {
-			logger.debug("reponse has already been commited. unable to redirect to " + targetUrl);
+			log.debug("reponse has already been commited. unable to redirect to " + targetUrl);
 			return;
 		}
-		
+		log.info("gggggggggggggggggggggggggggggggggggggggggg");
+		log.info(targetUrl);
 		clearAuthenticationAttributes(request, response);
 		getRedirectStrategy().sendRedirect(request, response, targetUrl);
 	}

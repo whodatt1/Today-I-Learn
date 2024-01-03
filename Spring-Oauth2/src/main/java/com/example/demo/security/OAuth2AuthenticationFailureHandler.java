@@ -15,10 +15,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.example.demo.util.CookieUtils;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import static com.example.demo.security.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URL_PARAM_COOKIE_NAME;
 
 // 소설 인증의 실패 시 Handler
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
@@ -38,6 +40,8 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
 				.build().toUriString();
 		
 		httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequest(request, response);
+		log.info("gggggggggggggggggggggggggggggggggggggggggg");
+		log.info(targetUrl);
 		getRedirectStrategy().sendRedirect(request, response, targetUrl);
 	}
 	

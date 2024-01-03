@@ -12,7 +12,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class AuthEntryPoint implements AuthenticationEntryPoint {@Override
+public class AuthEntryPoint implements AuthenticationEntryPoint {
+	
+	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.error("unapproved error : ", authException.getMessage());

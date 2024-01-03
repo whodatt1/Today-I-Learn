@@ -65,6 +65,7 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 	
+	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.cors()
 			.and()
@@ -79,18 +80,16 @@ public class SecurityConfig {
 			.exceptionHandling().authenticationEntryPoint(new AuthEntryPoint()) // 인증, 인가가 되지 않은 요청 시 발생
 			.and()
 			.authorizeHttpRequests()
-			.anyRequest()
-			//.antMatchers("/auth/**", "/oauth2/**")
-			.permitAll() // Security 허용 URL
-			//.anyRequest().authenticated() // 그 외엔 인증이 필요
+			.antMatchers("/auth/**", "/oauth2/**").permitAll() // Security 허용 URL
+			.anyRequest().authenticated() // 그 외엔 인증이 필요
 			.and()
 			.oauth2Login()
 			.authorizationEndpoint()
-//			.baseUri("/oauth2/authorization") // 소셜 로그인 URL
+			.baseUri("/oauth2/authorization") // 소셜 로그인 URL
 			.authorizationRequestRepository(cookieOAuth2AuthorizationRequestRepository()) // 인증 요청을 쿠키에 저장하고 검색
-//			.and()
-//			.redirectionEndpoint()
-//			.baseUri("/oauth2/callback/*") // 소셜 인증 후 Redirect Url
+			.and()
+			.redirectionEndpoint()
+			//.baseUri("/oauth2/callback/*") // 소셜 인증 후 Redirect Url
 			.and()
 			.userInfoEndpoint().userService(customOAuth2UserService);
 		
