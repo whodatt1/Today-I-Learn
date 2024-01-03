@@ -137,7 +137,9 @@ http
 
 .and()
 
-.redirectionEndpoint().baseUri("/oauth2/callback/*") // 소셜 인증 후 Redirect Url
+.redirectionEndpoint()
+
+//.baseUri("/oauth2/callback/*") // 소셜 인증 후 Redirect Url
 
 .and()
 
@@ -271,7 +273,9 @@ http
 
 .and()
 
-.redirectionEndpoint().baseUri("/oauth2/callback/*") // 소셜 인증 후 Redirect Url
+.redirectionEndpoint()
+
+//.baseUri("/oauth2/callback/*") // 소셜 인증 후 Redirect Url
 
 .and()
 
@@ -297,6 +301,12 @@ return http.build();
 ## 테스트
 
 1. http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:8080/auth/token 로 접속하여 카카오 로그인 페이지 접근
-2.  로그인
+2. 로그인
 
-현재 리다이렉트 오류로 인한 수정 작업중..
+## 오류
+
+1. CORS 관련 오류
+
+When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead. 
+
+위의 로그가 뜨며 500 ERROR
