@@ -15,6 +15,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		        .allowedMethods("GET", "POST", "PUT", "DELETE") // 허용되는 Method
 		        .allowedHeaders("*") // 허용되는 Header
 		        .maxAge(MAX_AGE_SECS)
-		        .allowedOriginPatterns("*");// 허용 시간
+		        .allowedOriginPatterns("*");
 	}
 }
