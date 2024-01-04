@@ -12,11 +12,7 @@ import com.nimbusds.oauth2.sdk.util.StringUtils;
 public class AuthContoller {
 	
 	@GetMapping("/token")
-	public String token(@RequestParam String token, @RequestParam String error) {
-		if (StringUtils.isNotBlank(error)) {
-			return error;
-		} else {
-			return token;
-		}
+	public String token(String code) {
+		return "인증 완료 코드값 : " + code;
 	}
 }
