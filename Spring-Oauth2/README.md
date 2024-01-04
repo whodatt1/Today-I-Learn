@@ -311,3 +311,57 @@ return http.build();
 When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead. 
 
 위의 로그가 뜨며 500 ERROR
+
+### From
+
+```java
+package com.example.demo.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class WebMvcConfig implements WebMvcConfigurer {
+
+	private final long MAX_AGE_SECS = 3600;
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**")
+		        .allowedOrigins("*")
+		        .allowedMethods("GET", "POST", "PUT", "DELETE")
+		        .allowedHeaders("*")
+		        .allowCredentials(true)
+		        .maxAge(MAX_AGE_SECS);
+	}
+}
+```
+### To
+
+```java
+package com.example.demo.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class WebMvcConfig implements WebMvcConfigurer {
+
+	private final long MAX_AGE_SECS = 3600;
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**")
+		        .allowedMethods("GET", "POST", "PUT", "DELETE")
+		        .allowedHeaders("*")
+		        .maxAge(MAX_AGE_SECS)
+		        .allowedOriginPatterns("*");
+	}
+}
+```
+
+스프링 부트에서 CORS 설정 시, .allowCredentials(true) 와 .allowedOrigins("*") 를 동시에 사용할 수 없도록 업데이트
+
+.allowCredentials(true) 와 .allowedOrigins("*") 제거 후 .allowedOriginPatterns("*") 추가하여 해결
