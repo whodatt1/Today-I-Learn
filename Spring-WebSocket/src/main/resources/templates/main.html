@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta charset="UTF-8">
 		<title>WebSocket Example</title>
@@ -23,8 +23,74 @@
 		    </div>
 		    
 		    <div class="input-group">
+				<div class="input-group-prepand">
+					<label class="input-group-text">방 제목</label>
+				</div>
 				
+				<input type="text" class="form-control" id="room_name" th:onkeyup="if(event.keyCode=='13'){event.preventDefault(); mainView.createRoom();}">
+				
+				<div class="input-group-append">
+					<button class="btn btn-primary" type="button" th:onclick="mainView.createRoom()">채팅방 개설</button>
+				</div>
 			</div>
+			
+			<ul class="list-group">
+				<li class="list-group-item list-group-item-action" th:each="room : ${rooms}" th:text="${room.roomName}" th:onclick="enterRoom(room.roomId)">
+				</li>
+			</ul>
 		</div>
+		
+		<script>
+			var mainView = {
+				init : function() {
+					mainView.getRooms();
+				},
+				
+				getRooms : function() {
+					
+					$.ajax({
+						url: '/chat/roomlist',
+						type: 'get',
+						dataType: 'json',
+						async: false,
+						success : function(data) {
+							console.log(data);
+						},
+						error : function(error) {
+							consol.elog(error);
+						}
+					})
+				},
+				
+				createRoom : function() {
+					
+					const roomName = $("#room_name").val();
+					
+					const params = {
+						name : roomName
+					}
+					
+					$.ajax({
+						url: '/chat/room',
+						type: 'post',
+						contentType: 'application/json; charset=utf-8',
+						dataType: 'json',
+						data: JSON.stringify(params),
+						async: true,
+						success : function(data) {
+							console.log(data);
+						},
+						error : function (error) {
+							console.log(error);
+						}
+					})
+				}
+				
+			}
+			
+			$(document).ready(function() {
+				mainView.init();
+			});	
+		</script>
 	</body>
 </html>

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,7 +26,7 @@ public class ChatRoomController {
 	
 	@GetMapping("/room")
 	public String rooms(Model model) {
-		return "/main.html";
+		return "main";
 	}
 	
 	// 모든 채팅방 목록 조회
@@ -38,7 +39,7 @@ public class ChatRoomController {
 	// 채팅방 생성
 	@PostMapping("/room")
 	@ResponseBody
-	public ChatRoom createRoom(@RequestParam String name) {
+	public ChatRoom createRoom(@RequestBody String name) {
 		return chatService.createRoom(name);
 	}
 	
@@ -47,7 +48,7 @@ public class ChatRoomController {
 	@ResponseBody
 	public String roomEnter(Model model, @PathVariable String roomId) {
 		model.addAttribute("roomId", roomId);
-		return "/roominside.html";
+		return "roominside";
 	}
 	
 	// 채팅방 디테일 조회
