@@ -14,10 +14,10 @@ public class ChatRoom {
 	private String roomId;
 	private String roomName;
 	
-	public static ChatRoom create(String name) {
+	public static ChatRoom create(String roomName) {
 		ChatRoom room = new ChatRoom();
 		room.roomId = UUID.randomUUID().toString();
-		room.roomName = name;
+		room.roomName = roomName;
 		return room;
 	}
 	

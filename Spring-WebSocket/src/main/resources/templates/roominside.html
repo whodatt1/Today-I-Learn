@@ -18,7 +18,7 @@
 		<div class="container" id="app">
 			<div class="row">
 		        <div class="col-md-12">
-		            <h3>채팅방 목록</h3>
+		            <h3>채팅방</h3>
 		        </div>
 		    </div>
 		    
@@ -36,9 +36,6 @@
 			
 			<ul class="list-group" id="roomList">
 				<li class="list-group-item list-group-item-action" id="roomItem" style="display: none;">
-					<button type="button" class="btn btn-sm btn-circle d-block btn-alt-danger float-right" id="enter_room">
-						입장
-					</button>
 				</li>
 			</ul>
 		</div>
@@ -50,8 +47,6 @@
 				},
 				
 				getRooms : function() {
-					
-					$("[name='roomItemAdd']").remove();
 					
 					$.ajax({
 						url: '/chat/roomlist',
@@ -85,8 +80,10 @@
 						data: JSON.stringify(params),
 						async: true,
 						success : function(data) {
+							
+							$("#room_name").val("");
+							
 							if (data != null) {
-								$("#room_name").val("");
 								mainView.getRooms();
 							}
 						},
@@ -105,8 +102,9 @@
 							listRow.appendTo($("#roomList"));
 							
 							listRow.attr("id", data.roomId);
-							listRow.attr("name", "roomItemAdd");
 							listRow.text(data.roomName);
+							
+							listRow.attr("href", "/chat/enter/" + data.roomId);
 							
 							listRow.show();						
 						}
