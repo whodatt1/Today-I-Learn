@@ -18,97 +18,26 @@
 		<div class="container" id="app">
 			<div class="row">
 		        <div class="col-md-12">
-		            <h3>채팅방</h3>
+		            <h3 th:text="${roomName}"></h3>
 		        </div>
 		    </div>
-		    
-		    <div class="input-group">
-				<div class="input-group-prepand">
-					<label class="input-group-text">방 제목</label>
-				</div>
-				
-				<input type="text" class="form-control" id="room_name" th:onkeyup="if(event.keyCode=='13'){event.preventDefault(); mainView.createRoom();}">
-				
-				<div class="input-group-append">
-					<button class="btn btn-primary" type="button" th:onclick="mainView.createRoom()">채팅방 개설</button>
-				</div>
-			</div>
-			
-			<ul class="list-group" id="roomList">
-				<li class="list-group-item list-group-item-action" id="roomItem" style="display: none;">
-				</li>
-			</ul>
 		</div>
 		
 		<script>
+			var roomId = '[[${roomId}]]';
+			
+			let sokcet = new SockJS("/websc");
+			let ws = Stomp.over(socket);
+			
 			var mainView = {
+				
+				
 				init : function() {
-					mainView.getRooms();
+					mainView.connect();
 				},
 				
-				getRooms : function() {
+				connect : function() {
 					
-					$.ajax({
-						url: '/chat/roomlist',
-						type: 'get',
-						dataType: 'json',
-						async: true,
-						success : function(dataList) {
-							if (dataList != null) {
-								mainView.spreadList(dataList);
-							}
-						},
-						error : function(error) {
-							console.log(error);
-						}
-					})
-				},
-				
-				createRoom : function() {
-					
-					const roomName = $("#room_name").val();
-					
-					const params = {
-						roomName : roomName
-					}
-					
-					$.ajax({
-						url: '/chat/room',
-						type: 'post',
-						contentType: 'application/json; charset=utf-8',
-						dataType: 'json',
-						data: JSON.stringify(params),
-						async: true,
-						success : function(data) {
-							
-							$("#room_name").val("");
-							
-							if (data != null) {
-								mainView.getRooms();
-							}
-						},
-						error : function (error) {
-							console.log(error);
-						}
-					})
-				},
-				
-				spreadList : function(dataList) {
-					if (typeof dataList != "undefined" && dataList != null && typeof dataList.length != "undefined" && dataList.length > 0) {
-						for (var i = 0; i < dataList.length; i++) {
-							var data = dataList[i];
-							
-							var listRow = $("#roomItem").clone();
-							listRow.appendTo($("#roomList"));
-							
-							listRow.attr("id", data.roomId);
-							listRow.text(data.roomName);
-							
-							listRow.attr("href", "/chat/enter/" + data.roomId);
-							
-							listRow.show();						
-						}
-					}
 				}
 				
 			}

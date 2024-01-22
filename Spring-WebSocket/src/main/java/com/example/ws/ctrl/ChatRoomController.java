@@ -45,16 +45,10 @@ public class ChatRoomController {
 	
 	// 채팅방 입장
 	@GetMapping("/room/enter/{roomId}")
-	@ResponseBody
 	public String roomEnter(Model model, @PathVariable String roomId) {
+		ChatRoom chatRoom = chatService.findById(roomId);
 		model.addAttribute("roomId", roomId);
+		model.addAttribute("roomName", chatRoom.getRoomName());
 		return "roominside";
-	}
-	
-	// 채팅방 디테일 조회
-	@GetMapping("/room/{roomId}")
-	@ResponseBody
-	public ChatRoom roomInside(@PathVariable String roomId) {
-		return chatService.findById(roomId);
 	}
 }
