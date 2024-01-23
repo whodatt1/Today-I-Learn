@@ -2,13 +2,13 @@ package com.example.ws.ctrl;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ws.dto.ChatMessage;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class MessageController {
 	
@@ -19,6 +19,6 @@ public class MessageController {
 		if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
 			message.setMessage(message.getSender() + "님이 입장했습니다.");
 		}
-		sendingOperation.convertAndSend("/topic/chat/room" + message.getRoomId(), message);
+		sendingOperation.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
 	}
 }

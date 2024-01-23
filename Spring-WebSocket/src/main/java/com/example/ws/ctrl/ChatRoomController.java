@@ -51,4 +51,10 @@ public class ChatRoomController {
 		model.addAttribute("roomName", chatRoom.getRoomName());
 		return "roominside";
 	}
+	
+	@GetMapping("/room/{roomId}")
+    @ResponseBody
+    public ChatRoom roomInfo(@PathVariable String roomId) {
+        return chatService.findById(roomId);
+    }
 }

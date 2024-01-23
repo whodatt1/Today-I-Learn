@@ -16,34 +16,78 @@
 			</h2>
 		</noscript>
 		<div class="container" id="app">
-			<div class="row">
-		        <div class="col-md-12">
-		            <h3 th:text="${roomName}"></h3>
+	        <div class="col-md-12">
+	            <h3 th:text="${roomName}"></h3>
+	        </div>
+	        
+	        <div class="input-group">
+		        <div class="input-group-prepend">
+		            <label class="input-group-text">내용</label>
+		        </div>
+		        <input type="text" class="form-control" id="message" th:onkeyup="if(event.keyCode=='13'){event.preventDefault(); detailView.sendMessage();}">
+		        <div class="input-group-append">
+		            <button class="btn btn-primary" type="button" th:onclick="detailView.sendMessage()">보내기</button>
 		        </div>
 		    </div>
+		    
+			<textarea id="chatOutput" rows="24"></textarea>
 		</div>
-		
+		<script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+		<script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
 		<script>
 			var roomId = '[[${roomId}]]';
 			
-			let sokcet = new SockJS("/websc");
-			let ws = Stomp.over(socket);
+			var socket = new SockJS("/websc");
+			var ws = Stomp.over(socket);
+			var reconnect = 0;
 			
-			var mainView = {
-				
+			// 대화명
+			var sender = localStorage.getItem('wschat.sender');
+			
+			var detailView = {
 				
 				init : function() {
-					mainView.connect();
+					detailView.connect();
 				},
 				
 				connect : function() {
+					ws.connect({}, function(frame) {
+						ws.subscribe("/topic/chat/room/" + roomId, function(message) {
+							var recv = JSON.parse(message.body);
+							detailView.recvMessage(recv);
+						});
+						ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId: roomId, sender: sender, message : ''}))
+					}, function(error) {
+						if (reconnect++ <= 5) {
+							setTimeout(function() {
+								console.log("재연결중");
+								socket = new SockJS("/websc");
+								ws = Stomp.over(socket);
+								detailView.connect();
+							}, 10*1000);
+						}
+					});
+				},
+				
+				sendMessage : function() {
+					var message = $("#message").val();
 					
+					ws.send("/app/chat/message", {}, JSON.stringify({type:'TALK', roomId: roomId, sender: sender, message: message}))
+					
+					$("#message").val("");
+				},
+				
+				recvMessage : function(recv) {
+					var sender = recv.type == 'ENTER' ? '[알림]' : recv.sender;
+					var inputMessage = recv.message; 
+					
+					$("#chatOutput").append(sender + " : " + inputMessage + "\n");
 				}
 				
 			}
 			
 			$(document).ready(function() {
-				mainView.init();
+				detailView.init();
 			});	
 		</script>
 	</body>
