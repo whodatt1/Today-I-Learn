@@ -18,11 +18,19 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// rest
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 	// cache
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
 	// lombok
 	compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    // thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // bootstrap
+    implementation 'org.webjars:bootstrap:3.3.7'
+    // jquery
+	implementation 'org.webjars:jquery:3.1.1-1'
 }
 
 tasks.named('bootBuildImage') {
