@@ -54,6 +54,7 @@ public class UserRepository {
 		log.info("Repository save {}", user);
 		
 		store.put(user.getId(), user);
+		
 		return user;
 	}
 	

@@ -1,6 +1,6 @@
 package com.example.cache.ctrl;
 
-import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cache.dto.User;
 import com.example.cache.dto.Users;
@@ -18,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RestController
+@Controller
 @RequestMapping("/cache")
 @RequiredArgsConstructor
 public class UserController {
@@ -31,13 +30,13 @@ public class UserController {
 	}
 	
 	@GetMapping("/users")
-	public Users findAll(Model model) {
+	public Users findAll() {
 		Users users = userRepository.findAll();
 		log.info("Contoller findAll {}", users);
 		return users;
 	}
 	
-	@GetMapping("/user/${userId}")
+	@GetMapping("/user/{userId}")
 	public User findById(@PathVariable String userId) {
 		Long realUserId = Long.parseLong(userId);
 		User user = userRepository.findById(realUserId);
@@ -59,7 +58,7 @@ public class UserController {
 		return modUser;
 	}
 	
-	@DeleteMapping("/user/${userId}")
+	@DeleteMapping("/user/{userId}")
 	public void delete(@PathVariable String userId) {
 		Long realUserId = Long.parseLong(userId);
 		User delUser = userRepository.findById(realUserId);

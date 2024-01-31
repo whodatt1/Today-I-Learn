@@ -3,7 +3,8 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Cache Example</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	</head>
 	<body>
@@ -14,12 +15,58 @@
 		        </div>
 		    </div>
 		    
-		    <div class="row">
-				<input type="text" class="form-control" id="user_name">
-				<input type="text" class="form-control" id="user_age">
-				
-				<button type="button" class="btn btn-primary" th:onclick="mainView.getUserList()">리스트</button>
+		    <div class="row py-3">
+				<div class="col-md-6">
+	            	<label for="user-name" class="form-label">유저 이름</label>
+	              	<input type="text" class="form-control" id="user-name" placeholder="" required>
+	            </div>
+	
+	            <div class="col-md-6">
+	              	<label for="user-age" class="form-label">유저 나이</label>
+	              	<input type="text" class="form-control" id="user-age" placeholder="" required>
+            	</div>
+            	
+            	<div class="col-md-6 py-3">
+	              	<button type="button" class="btn btn-success" th:onclick="mainView.insertUser()">유저 생성</button>
+            	</div>
 			</div>
+			
+			<hr class ="py-3">
+			
+			<div class="row py-3">
+		        <div class="col-md-6">
+	              	<button type="button" class="btn btn-primary" th:onclick="mainView.getUserList()">리스트</button>
+            	</div>
+		    </div>
 		</div>
+		
+		<script>
+			var mainView = {
+				insertUser : function() {
+					const userName = $("#user-name").val();
+					const userAge = $("#user-age").val();
+					
+					const user = {
+						name : userName,
+						age : userAge
+					}
+					
+					$.ajax({
+						url: '/cache/user/ins',
+						type: 'post',
+						contentType: 'application/json; charset=utf-8',
+						dataType: 'json',
+						data: JSON.stringify(user),
+						async: true,
+						success : function(data) {
+							
+						},
+						error : function (error) {
+							console.log(error);
+						}
+					})
+				}
+			}			
+		</script>
 	</body>
 </html>
