@@ -45,7 +45,7 @@ public class UserRepository {
 	// save & update
 	// 새로운 데이터를 저장하거나 기존 데이터를 업데이트할때 해당 키값을 캐싱
 	// 리스트 값이 갱신되어서 all 전체 조회 캐시를 갱신
-	@CachePut(key = "#member.id")
+	@CachePut(key = "#user.id")
 	@CacheEvict(key = "'all'")
 	public User save(User user) {
 		Long newId = generateId();
@@ -58,7 +58,7 @@ public class UserRepository {
 		return user;
 	}
 	
-	@CachePut(key = "#member.id")
+	@CachePut(key = "#user.id")
 	@CacheEvict(key = "'all'")
 	public User update(User user) {
 		log.info("Repository update {}", user);

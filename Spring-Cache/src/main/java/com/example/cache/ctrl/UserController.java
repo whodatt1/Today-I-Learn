@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.cache.dto.User;
 import com.example.cache.dto.Users;
@@ -30,28 +31,32 @@ public class UserController {
 	}
 	
 	@GetMapping("/users")
+	@ResponseBody
 	public Users findAll() {
 		Users users = userRepository.findAll();
-		log.info("Contoller findAll {}", users);
+		log.info("Controller findAll {}", users);
 		return users;
 	}
 	
 	@GetMapping("/user/{userId}")
+	@ResponseBody
 	public User findById(@PathVariable String userId) {
 		Long realUserId = Long.parseLong(userId);
 		User user = userRepository.findById(realUserId);
-		log.info("Contoller findById {}", user);
+		log.info("Controller findById {}", user);
 		return user;
 	}
 	
 	@PostMapping("/user/ins")
+	@ResponseBody
 	public User save(@RequestBody User user) {
 		User newUser = userRepository.save(user);
-		log.info("Contoller save {}", newUser);
+		log.info("Controller save {}", newUser);
 		return newUser;
 	}
 	
 	@PutMapping("/user/mod")
+	@ResponseBody
 	public User update(@RequestBody User user) {
 		User modUser = userRepository.update(user);
 		log.info("Controller update {}", modUser);
@@ -59,6 +64,7 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/user/{userId}")
+	@ResponseBody
 	public void delete(@PathVariable String userId) {
 		Long realUserId = Long.parseLong(userId);
 		User delUser = userRepository.findById(realUserId);
