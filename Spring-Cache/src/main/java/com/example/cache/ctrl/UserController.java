@@ -1,5 +1,8 @@
 package com.example.cache.ctrl;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.cache.dto.User;
-import com.example.cache.dto.Users;
 import com.example.cache.repo.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -32,8 +34,8 @@ public class UserController {
 	
 	@GetMapping("/users")
 	@ResponseBody
-	public Users findAll() {
-		Users users = userRepository.findAll();
+	public List<User> findAll() {
+		List<User> users = userRepository.findAll();
 		log.info("Controller findAll {}", users);
 		return users;
 	}
@@ -68,7 +70,7 @@ public class UserController {
 	public void delete(@PathVariable String userId) {
 		Long realUserId = Long.parseLong(userId);
 		User delUser = userRepository.findById(realUserId);
-		log.info("Controller delete {}", delUser);
 		userRepository.delete(delUser);
+		log.info("Controller delete {}", delUser);
 	}
 }

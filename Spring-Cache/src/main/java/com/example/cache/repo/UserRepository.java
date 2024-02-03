@@ -12,7 +12,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Repository;
 
 import com.example.cache.dto.User;
-import com.example.cache.dto.Users;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,10 +25,10 @@ public class UserRepository {
 	// users::all 이라는 key 값에 Users 데이터가 저장됩니다.
 	// 이후 한번 더 조회하면 users::all을 확인 후 데이터가 있다면 그 데이터를 바로 리턴
 	@Cacheable(key = "'all'")
-	public Users findAll() {
+	public List<User> findAll() {
 		List<User> users = store.values().stream().toList();
 		log.info("Repository findAll {}", users);
-		return new Users(users);
+		return users;
 	}
 	
 	// userId를 키값으로 설정하여 unless = "#result == null" 추가하여 없는 데이터의 경우 캐싱하지 않음
@@ -61,6 +60,7 @@ public class UserRepository {
 	@CachePut(key = "#user.id")
 	@CacheEvict(key = "'all'")
 	public User update(User user) {
+		System.out.println(user.toString());
 		log.info("Repository update {}", user);
 		store.put(user.getId(), user);
 		return user;
