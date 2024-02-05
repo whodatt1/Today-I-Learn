@@ -46,6 +46,7 @@
 								<input type="text" id="user-item-name" class="form-control">
 								<label for="item-name" class="form-label">유저 나이</label>
 	  							<input type="text" id="user-item-age" class="form-control">
+								<button class="btn btn-outline-secondary" type="button" id="user-detail">상세</button>
 								<button class="btn btn-outline-secondary" type="button" id="user-mod">수정</button>
 	  							<button class="btn btn-outline-secondary" type="button" id="user-del">삭제</button>
   							</div>
@@ -119,6 +120,25 @@
 							listRow.find("#user-item-name").val(data.name);
 							listRow.find("#user-item-age").val(data.age);
 							
+							listRow.find("#user-detail").on("click", data, function(event) {
+								event.stopImmediatePropagation();
+								
+								$.ajax({
+									url: '/cache/user' + event.data.id,
+									type: 'get',
+									dataType: 'json',
+									async: true,
+									success : function(data) {
+										if (data != null) {
+											alert("유저 아이디 : " + data.id + " 유저 이름 : " + data.name + " 유저 나이 : " + user.age)
+										}
+									},
+									error : function(error) {
+										console.log(error);
+									}
+								})
+							})
+							
 							listRow.find("#user-mod").on("click", data, function(event) {
 								event.stopImmediatePropagation();
 								
@@ -127,7 +147,7 @@
 								var modUserAge = modListRow.find("#user-item-age").val();
 								
 								var user = {
-									id : data.id,
+									id : event.data.id,
 									name : modUserName,
 									age : modUserAge
 								};
@@ -152,9 +172,9 @@
 							
 							listRow.find("#user-del").on("click", data, function(event) {
 								event.stopImmediatePropagation();
-								console.log(data);
+								
 								$.ajax({
-									url: '/cache/user/' + data.id,
+									url: '/cache/user/' + event.data.id,
 									type: 'delete',
 									//dataType: 'json', // 컨트롤러 리턴값 void라 주석처리
 									async: true,
