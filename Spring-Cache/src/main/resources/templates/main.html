@@ -78,7 +78,7 @@
 							if (data != null) {
 								$("#user-name").val("");
 								$("#user-age").val("");
-								alert("유저 아이디 : " + data.id + " 유저 이름 : " + data.name + " 유저 나이 : " + user.age + " 생성 완료!")
+								alert("유저 아이디 : " + data.id + " 유저 이름 : " + data.name + " 유저 나이 : " + data.age + " 생성 완료!")
 							}
 						},
 						error : function (error) {
@@ -124,13 +124,13 @@
 								event.stopImmediatePropagation();
 								
 								$.ajax({
-									url: '/cache/user' + event.data.id,
+									url: '/cache/user/' + event.data.id,
 									type: 'get',
 									dataType: 'json',
 									async: true,
 									success : function(data) {
 										if (data != null) {
-											alert("유저 아이디 : " + data.id + " 유저 이름 : " + data.name + " 유저 나이 : " + user.age)
+											alert("유저 아이디 : " + data.id + " 유저 이름 : " + data.name + " 유저 나이 : " + data.age)
 										}
 									},
 									error : function(error) {
