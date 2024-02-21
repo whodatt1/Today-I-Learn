@@ -15,7 +15,66 @@
 
 캐시는 오로지 성능을 위해서 자리를 잡고 있는 것이기 때문에 다른 것에 영향을 미쳐서는 안 된다. 다른 데이터가 바뀌어 버린다면 또 다른 비즈니스 로직이 되어버린다. 오로지 성능만을 위하기 때문에 다른 것에 영향을 미치지 않는다는 의미로 "투명하다"라는 말을 쓴다고 합니다.
 
+## 어노테이션
+---
+
+### @EnableCaching
+
+* Spring Boot에게 캐싱기능이 필요하다고 전달합니다
+* Spring Boot Starter class에 적용
+
+### @Cacheable
+
+* 리턴 값을 기준으로 데이터가 캐시에 있으면 그대로 반환, 없으면 저장 후 반환합니다.
+* 보통 조회와 같은 API에 많이 사용됩니다.
+
+|Element|Description|Type|
+|-------|-----------|----|
+|cacheName|캐시이름(설정 메서드 리턴값이 저장)|String[]|
+|value|cacheName의 별칭|String[]|
+|key|동적인 키 값을 사용하는 SpEL 표현식 동일한 cache name을 사용하지만 구분될 필요가 있을 경우 사용되는 값|String|
+|condition|SpEL 표현식이 참일 경우에만 캐싱 적용 - or, and 등 조건식, 논리 연산 가능|String|
+|unless|캐싱을 막기 위해 사용되는 SpEL 표현식 condition과 반대로 참일 경우에만 캐싱이 적용되지 않음|String|
+|cacheManager|사용 할 CacheManager 지정 (EHCacheManager, RedisCacheManager 등)|String|
+|sync|여러 스레드가 동일한 키에 대한 값을 로드하려고 할 경우 기본 메서드의 호출을 동기화 즉, 캐시 구현체가 Thread safe 하지 않은 경우 캐시에 동기화를 걸 수 있는 속성|boolean|
+
+### @CachePut
+
+* 캐시에 데이터를 저장할 때만 사용된다.
+* @Cacheable과 다르게 캐시에 저장된 데이터를 사용하지 않는다.
+* 보통 수정과 같은 API에 많이 사용됩니다
+
+|Element|Description|Type|
+|-------|-----------|----|
+|cacheName|입력할 캐시 이름|String[]|
+|value|cacheName의 별칭|String[]|
+|key|동적인 키 값을 사용하는 SpEL 표현식 동일한 cache name을 사용하지만 구분될 필요가 있을 경우 사용되는 값|String|
+|cacheManager|사용 할 CacheManager 지정 (EHCacheManager, RedisCacheManager 등)|String|
+|condition|SpEL 표현식이 참일 경우에만 캐싱 적용 - or, and 등 조건식, 논리 연산 가능|String|
+|unless|캐싱을 막기 위해 사용되는 SpEL 표현식 condition과 반대로 참일 경우에만 캐싱이 적용되지 않음|String|
+
+### @CacheEvict
+
+* 메서드가 호출될 때 캐시에 있는 데이터가 삭제됩니다.
+* 보통 삭제와 같은 API에 많이 사용됩니다.
+
+|Element|Description|Type|
+|-------|-----------|----|
+|cacheName|제거할 캐시 이름|String[]|
+|value|cacheName의 별칭|String[]|
+|key|동적인 키 값을 사용하는 SpEL 표현식 동일한 cache name을 사용하지만 구분될 필요가 있을 경우 사용되는 값|String|
+|allEntries|캐시 내의 모든 리소스를 삭제할지의 여부|boolean|
+|condition|SpEL 표현식이 참일 경우에만 캐싱 적용 - or, and 등 조건식, 논리 연산 가능|String|
+|cacheManager|사용 할 CacheManager 지정 (EHCacheManager, RedisCacheManager 등)|String|
+|beforeInvocation|true - 메서드 수행 이전 캐시 리소스 삭제, false - 메서드 수행 후 캐시 리소스 삭제|boolean|
+
+### @Caching
+
+* 여러개의 캐시 어노테이션을 함께 사용하게 해줍니다.
+* 예를들어 @CachePut과 @CacheEvict를 함께 사용할때 사용됩니다.
+
 ## 테스트
+---
 
 ### 1. 새로운 유저 추가
 
