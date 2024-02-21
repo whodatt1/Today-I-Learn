@@ -15,6 +15,26 @@
 
 캐시는 오로지 성능을 위해서 자리를 잡고 있는 것이기 때문에 다른 것에 영향을 미쳐서는 안 된다. 다른 데이터가 바뀌어 버린다면 또 다른 비즈니스 로직이 되어버린다. 오로지 성능만을 위하기 때문에 다른 것에 영향을 미치지 않는다는 의미로 "투명하다"라는 말을 쓴다고 합니다.
 
+## CacheManager 란?
+
+* 캐시를 관리하고 캐시 된 데이터를 저장하고 반환하는 역할을 합니다.
+* 일반적으로 메모리 상에 저장되는 데이터를 디스크, 데이터베이스, 클라우드 서비스와 같은 저장소에 저장이 가능하도록 합니다.
+* 해당 캐시는 Redis, Ehcache, Caffeine등 다양한 캐시 라이브러리와 연동하여 사용 가능합니다.
+
+> CacheManager의 종류
+|CacheManager|캐시 저장 위치|설명|
+|------------|-------------|-----|
+|ConcurrentMapCacheManager|메모리 상에 캐시 저장|ConcurrentHashMap 기반 캐시 구현체를 의미합니다.|
+|CaffeineCacheManager|메모리 상에 캐시 저장|Caffeine 기반 캐시 구현체|
+|SimpleCacheManager|메모리 상에 캐시 저장|단순 캐시 구현체를 의미합니다.|
+|EhCacheCacheManager|디스크 또는 데이터베이스에 저장|Ehcache 기반 캐시 구현체를 의미합니다.|
+|HazelcastCacheManager|메모리 상에 캐시 저장|Hazelcast 기반 캐시 구현체를 의미합니다.|
+|InfinispanCacheManager|메모리 상에 캐시 저장|Infinispan 기반 캐시 구현체를 의미합니다.|
+|RedisCacheManager|Redis 내의 데이터베이스에 저장|Redis 기반 캐시 구현체를 의미합니다.|
+|CouchbaseCacheManager|Couchbase 내의 데이터베이스에 저장|Couchbase 기반 캐시 구현체를 의미합니다.|
+|GemfireCacheManager|자체 저장소에 저장|GemFire 기반 캐시 구현체를 의미합니다.|
+|CoherenceCacheManager|자체 저장소에 저장|Oracle Coherence 기반 캐시 구현체를 의미합니다.|
+
 ## 어노테이션
 ---
 
