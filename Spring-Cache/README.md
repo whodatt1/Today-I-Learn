@@ -22,6 +22,7 @@
 * 해당 캐시는 Redis, Ehcache, Caffeine등 다양한 캐시 라이브러리와 연동하여 사용 가능합니다.
 
 > CacheManager의 종류
+
 |CacheManager|캐시 저장 위치|설명|
 |------------|-------------|-----|
 |ConcurrentMapCacheManager|메모리 상에 캐시 저장|ConcurrentHashMap 기반 캐시 구현체를 의미합니다.|
