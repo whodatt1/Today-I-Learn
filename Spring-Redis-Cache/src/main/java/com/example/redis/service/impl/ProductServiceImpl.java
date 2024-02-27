@@ -2,11 +2,13 @@ package com.example.redis.service.impl;
 
 import java.util.List;
 
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.redis.dto.Product;
 import com.example.redis.service.ProductService;
+import com.example.redis.util.RedisUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,11 +16,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 	
-	private final RedisTemplate<String, Object> redisTemplate;
+	private final RedisUtils redisUtils;
 
 	@Override
-	public int insertProduct(Product product) {
-		return 0;
+	public Product insertProduct(Product product) {
+		redisUtils.setData(null, product, 3L);
+		return null;
 	}
 
 	@Override

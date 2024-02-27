@@ -6,7 +6,7 @@ import com.example.redis.dto.Product;
 
 public interface ProductService {
 	
-	int insertProduct(Product product);
+	Product insertProduct(Product product);
 	int updateProduct(Product product);
 	int deleteProduct(Product product);
 	List<Product> getProductListAll();
