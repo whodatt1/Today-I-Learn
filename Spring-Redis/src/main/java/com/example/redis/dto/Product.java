@@ -5,30 +5,27 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
-import org.springframework.data.redis.core.TimeToLive;
+import org.springframework.data.redis.core.index.Indexed;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-// 특정 해쉬값을 키, 해당 클래스의 인스턴스 값으로 적재한다
-@RedisHash
+@RedisHash(value = "product", timeToLive = 3600) // Redis Repo 사용을 위한 어노테이션 설정
 public class Product {
 	
 	@Id
-	Long productId;
+	String productCd;
 	
 	String productName;
 	
 	String delYn;
 	
-	// 유효시간
-	@TimeToLive
-	private Long ttl;
-	
+	@Indexed // 필드 값으로 데이터를 찾을 수 있도록 함
 	private LocalDateTime regAt;
 	
+	@Indexed
 	private LocalDateTime modAt;
 	
 }

@@ -22,6 +22,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
+/*
+ * 
+ * 1. CacheManager을 이용하는 방법
+ * 2. RedisTemplate을 이용하는 방법
+ * 3. RedisRepository를 이용하는 방법
+ * 
+ */
+
+
 @Configuration
 @EnableCaching
 @RequiredArgsConstructor
@@ -39,6 +48,7 @@ public class RedisConfig {
 				);
 	}
 	
+	// CacheManager 사용을 위한 Bean
 	// Redis Key별 Serialize 생성
 	@Bean
 	public CacheManager cacheManager(RedisConnectionFactory cf) {
@@ -55,12 +65,12 @@ public class RedisConfig {
 				.build();
 	}
 	
+	// RedisTemplate 사용을 위한 Bean
 	@Bean
 	public RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory cf) {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(cf);
 		
-		// 일반적인 key:value의 경우
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
 		redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer(objectMapper));
 		
