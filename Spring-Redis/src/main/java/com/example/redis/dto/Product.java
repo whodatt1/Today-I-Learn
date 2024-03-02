@@ -2,6 +2,7 @@ package com.example.redis.dto;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;

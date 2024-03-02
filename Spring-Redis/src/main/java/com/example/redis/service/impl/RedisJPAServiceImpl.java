@@ -1,12 +1,14 @@
 package com.example.redis.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.example.redis.dto.Product;
-import com.example.redis.exception.UserExistsException;
+import com.example.redis.exception.ProductExistsException;
+import com.example.redis.exception.ProductNotFoundException;
 import com.example.redis.repo.RedisJPARepository;
 import com.example.redis.service.RedisJPAService;
 
@@ -19,35 +21,53 @@ public class RedisJPAServiceImpl implements RedisJPAService {
 	private final RedisJPARepository redisJpaRepository;
 
 	@Override
-	public Product insertProductWithJPA(Product product) throws UserExistsException {
-		Optional<Product> productChk = Optional.ofNullable(redisJpaRepository.findById(product.getProductCd())
-											   .orElseThrow(() -> new UserExistsException("이미 등록된 사용자입니다.")));
+	public Product insertProductWithJPA(Product product) throws ProductExistsException {
+		Optional<Product> productChk = redisJpaRepository.findById(product.getProductCd());
+		
+		if (productChk.isPresent()) {
+			throw new ProductExistsException("이미 존재하는 품목입니다!");
+		}
 		
 		return redisJpaRepository.save(product);
 	}
 
 	@Override
 	public Product updateProductWithJPA(Product product) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Product> productChk = Optional.ofNullable(redisJpaRepository.findById(product.getProductCd())
+												.orElseThrow(() -> new ProductNotFoundException("해당 품목을 찾을 수 없습니다!")));
+		
+		if (productChk.isPresent()) {
+			product = redisJpaRepository.save(product);
+		}
+		
+		return product;
 	}
 
 	@Override
-	public Product deleteProductWithJPA(Product product) {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteProductWithJPA(String productCd) {
+		Optional<Product> productChk = Optional.ofNullable(redisJpaRepository.findById(productCd)
+				.orElseThrow(() -> new ProductNotFoundException("해당 품목을 찾을 수 없습니다!")));
+		
+		redisJpaRepository.delete(productChk.get());
 	}
 
 	@Override
 	public List<Product> getProductListAllWithJPA() {
-		// TODO Auto-generated method stub
-		return null;
+		Iterable<Product> all = redisJpaRepository.findAll();
+		
+		List<Product> pList = new ArrayList<>();		
+		
+		all.forEach(pList::add);
+		
+		return pList;
 	}
 
 	@Override
-	public Product getProductDetailByIdWithJPA(Long productId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Product getProductDetailByIdWithJPA(String productCd) {
+		Optional<Product> productChk = Optional.ofNullable(redisJpaRepository.findById(productCd)
+				.orElseThrow(() -> new ProductNotFoundException("해당 품목을 찾을 수 없습니다!")));
+		
+		return productChk.get();
 	}
 
 	

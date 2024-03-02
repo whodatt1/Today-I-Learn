@@ -8,7 +8,7 @@ public interface RedisJPAService {
 	
 	Product insertProductWithJPA(Product product);
 	Product updateProductWithJPA(Product product);
-	Product deleteProductWithJPA(Product product);
+	void deleteProductWithJPA(String productCd);
 	List<Product> getProductListAllWithJPA();
-	Product getProductDetailByIdWithJPA(Long productId);
+	Product getProductDetailByIdWithJPA(String productCd);
 }
