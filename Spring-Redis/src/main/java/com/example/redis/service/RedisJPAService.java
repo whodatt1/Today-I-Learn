@@ -11,4 +11,5 @@ public interface RedisJPAService {
 	void deleteProductWithJPA(String productCd);
 	List<Product> getProductListAllWithJPA();
 	Product getProductDetailByIdWithJPA(String productCd);
+	List<Product> getProductListAllOrderByRegAtWithJPA();
 }

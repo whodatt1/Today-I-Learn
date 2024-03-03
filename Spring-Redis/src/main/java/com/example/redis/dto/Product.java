@@ -17,11 +17,11 @@ import lombok.Getter;
 public class Product {
 	
 	@Id
-	String productCd;
+	private String productCd;
 	
-	String productName;
+	private String productName;
 	
-	String delYn;
+	private String delYn;
 	
 	@Indexed // 필드 값으로 데이터를 찾을 수 있도록 함
 	private LocalDateTime regAt;

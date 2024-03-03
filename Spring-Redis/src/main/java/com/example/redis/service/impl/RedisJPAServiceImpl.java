@@ -28,7 +28,7 @@ public class RedisJPAServiceImpl implements RedisJPAService {
 			throw new ProductExistsException("이미 존재하는 품목입니다!");
 		}
 		
-		return redisJpaRepository.save(product);
+		return redisJpaRepository.save(product); 
 	}
 
 	@Override
@@ -69,6 +69,16 @@ public class RedisJPAServiceImpl implements RedisJPAService {
 		
 		return productChk.get();
 	}
-
 	
+	// @Indexed 어노테이션사용으로 regAt 키값으로 인한 정렬 조회
+	@Override
+	public List<Product> getProductListAllOrderByRegAtWithJPA() {
+		Iterable<Product> allOrderByRegAt = redisJpaRepository.findAllByOrderByRegAtDesc();
+		
+		List<Product> pListOrderByRegAtDesc = new ArrayList<>();
+		
+		allOrderByRegAt.forEach(pListOrderByRegAtDesc::add);
+		
+		return pListOrderByRegAtDesc;
+	}
 }
