@@ -7,8 +7,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.redis.dto.Product;
-import com.example.redis.exception.ProductExistsException;
-import com.example.redis.exception.ProductNotFoundException;
+import com.example.redis.exception.product.ProductExistsException;
+import com.example.redis.exception.product.ProductNotFoundException;
 import com.example.redis.repo.RedisJPARepository;
 import com.example.redis.service.RedisJPAService;
 

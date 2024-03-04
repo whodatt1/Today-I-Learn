@@ -1,4 +1,4 @@
-package com.example.redis.exception;
+package com.example.redis.exception.product;
 
 public class ProductNotFoundException extends RuntimeException {
 	
