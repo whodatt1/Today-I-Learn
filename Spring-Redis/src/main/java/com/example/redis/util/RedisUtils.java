@@ -19,7 +19,7 @@ public class RedisUtils {
 	}
 	
 	public Object getData(String key) {
-		return (Object) redisTemplate.opsForValue().get(key);
+		return redisTemplate.opsForValue().get(key);
 	}
 	
 	public void deleteData(String key) {
