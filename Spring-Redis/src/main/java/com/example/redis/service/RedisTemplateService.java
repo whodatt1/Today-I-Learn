@@ -3,7 +3,6 @@ package com.example.redis.service;
 import java.util.List;
 
 import com.example.redis.dto.Movie;
-import com.example.redis.dto.Product;
 
 public interface RedisTemplateService {
 	

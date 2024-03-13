@@ -17,7 +17,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import com.example.redis.dto.Product;
+import com.example.redis.dto.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -57,11 +57,11 @@ public class RedisConfig {
 				.computePrefixWith(cacheName -> "prefix::" + cacheName + "::") // Cache Key prefix 설정
 				.disableCachingNullValues() // 캐싱할때 null 값을 비허용
 				.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())) // Key를 직렬화 할 때 사용하는 규칙
-				.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<>(Product.class))); // Value를 직렬화 할때 사용하는 규칙
+				.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<>(User.class))); // Value를 직렬화 할때 사용하는 규칙
 		
 		return RedisCacheManager.RedisCacheManagerBuilder
 				.fromConnectionFactory(cf)
-				.withCacheConfiguration("Product", productConfig)
+				.withCacheConfiguration("User", productConfig)
 				.build();
 	}
 	

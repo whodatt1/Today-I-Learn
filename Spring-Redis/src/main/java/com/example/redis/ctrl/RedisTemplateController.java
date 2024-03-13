@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.redis.dto.Movie;
-import com.example.redis.dto.Product;
 import com.example.redis.service.RedisTemplateService;
 
 import lombok.RequiredArgsConstructor;

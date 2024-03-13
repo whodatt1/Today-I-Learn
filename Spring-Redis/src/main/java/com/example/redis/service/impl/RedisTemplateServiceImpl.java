@@ -1,12 +1,14 @@
 package com.example.redis.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.example.redis.dto.Movie;
 import com.example.redis.service.RedisTemplateService;
-import com.example.redis.util.RedisUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,18 +16,29 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RedisTemplateServiceImpl implements RedisTemplateService {
 	
-	private final RedisUtils redisUtils;
-
+	private final RedisTemplate<String, Movie> redisTemplate;
+	
+	// Redis Hash Type 사용
+	private final HashOperations<String, String, Movie> hashOperations;
+	
+	public RedisTemplateServiceImpl(RedisTemplate<String, Movie> redisTemplate) {
+		this.redisTemplate = redisTemplate;
+		hashOperations = redisTemplate.opsForHash();
+	}
+	
 	@Override
 	public Movie insertMovieWithTemp(Movie movie) {
+		hashOperations.put("Movie", movie.getMovieCd(), movie);
 		
-		redisUtils.setData("Movie::"+ movie.getMovieCd(), movie, (long) 120000);
+		Optional<Movie> movieChk = Optional.ofNullable((Movie) hashOperations.get("Movie", movie.getMovieCd()));
 		
-		Movie newMovie = (Movie) redisUtils.getData("Movie::"+ movie.getMovieCd());
+		if (movieChk.isPresent()) {
+			
+		} else {
+			
+		}
 		
-		
-		
-		return newMovie;
+		return null;
 	}
 
 	@Override
