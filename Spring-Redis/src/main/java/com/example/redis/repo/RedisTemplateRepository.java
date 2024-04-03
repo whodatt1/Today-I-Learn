@@ -1,10 +1,10 @@
 package com.example.redis.repo;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.redis.dto.Movie;
 
 @Repository
-public interface RedisTemplateRepository extends CrudRepository<Movie, String> {
+public interface RedisTemplateRepository extends JpaRepository<Movie, String> {
 }

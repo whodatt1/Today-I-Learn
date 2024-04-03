@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.example.redis.dto.Movie;
@@ -24,11 +25,14 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 	
 	private final RedisTemplateRepository redisTemplateRepository;
 	
-	// Redis Hash Type 사용
-	private final HashOperations<String, String, Movie> hashOperations;
+	private final RedisTemplate<String, Movie> redisTemplate;
+	
 	
 	@Override
 	public Movie insertMovieWithTemp(Movie movie) throws MovieExistsException {
+		
+		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
+		
 		// DB 데이터 체크
 		Optional<Movie> movieChkDB = redisTemplateRepository.findById(movie.getMovieCd());
 		// Redis 데이터 체크
@@ -37,6 +41,7 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 		if (movieChkDB.isPresent() && movieChkRedis.isPresent()) {
 			throw new MovieExistsException("Redis와 DB에 이미 존재하는 영화입니다.");
 		} else {
+			
 			hashOperations.putIfAbsent(hashReference, movie.getMovieCd(), movie);
 			redisTemplateRepository.save(movie);
 		}
@@ -46,6 +51,8 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 
 	@Override
 	public Movie updateMovieWithTemp(Movie movie) {
+		
+		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
 		// DB 데이터 체크
 		Optional<Movie> movieChkDB = redisTemplateRepository.findById(movie.getMovieCd());
 		// Redis 데이터 체크
@@ -63,6 +70,8 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 
 	@Override
 	public void deleteMovieWithTemp(String movieCd) {
+		
+		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
 		// DB 데이터 체크
 		Optional<Movie> movieChkDB = redisTemplateRepository.findById(movieCd);
 		// Redis 데이터 체크
@@ -78,6 +87,8 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 
 	@Override
 	public List<Movie> getMovieListAllWithTemp() {
+		
+		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
 		// 적당한 리스트 크기라 가정하여 Redis 에서 가져오는 것으로 구현
 		Map<String, Movie> entries = hashOperations.entries(hashReference);
 		List<Movie> movieList = new ArrayList<>(entries.values());
@@ -87,6 +98,8 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 
 	@Override
 	public Movie getMovieDetailByIdWithTemp(String movieCd) {
+		
+		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
 		// // DB 데이터 가져오기
 		Optional<Movie> movieDetDB = redisTemplateRepository.findById(movieCd);
 		// Redis 데이터 가져오기

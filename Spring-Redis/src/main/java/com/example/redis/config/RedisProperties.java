@@ -1,10 +1,12 @@
 package com.example.redis.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
+@Component
 @ConfigurationProperties(prefix = "redis")
 public class RedisProperties {
 	

@@ -42,7 +42,7 @@ public class RedisConfig {
 	
 	// 레디스 구조에 맞는 서버 정보를 추가
 	@Bean
-	public RedisConnectionFactory redisConnectionFactory() {
+	RedisConnectionFactory redisConnectionFactory() {
 		return new LettuceConnectionFactory(
 					new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort())
 				);
@@ -51,7 +51,7 @@ public class RedisConfig {
 	// CacheManager 사용을 위한 Bean
 	// Redis Key별 Serialize 생성
 	@Bean
-	public CacheManager cacheManager(RedisConnectionFactory cf) {
+	CacheManager cacheManager(RedisConnectionFactory cf) {
 		
 		RedisCacheConfiguration productConfig = RedisCacheConfiguration.defaultCacheConfig()
 				.computePrefixWith(cacheName -> "prefix::" + cacheName + "::") // Cache Key prefix 설정
@@ -67,10 +67,9 @@ public class RedisConfig {
 	
 	// RedisTemplate 사용을 위한 Bean
 	@Bean
-	public RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory cf) {
+	RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory cf) {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(cf);
-		
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
 		redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer(objectMapper));
 		
