@@ -23,4 +23,5 @@ public class Movie {
 	private LocalDateTime regAt;
 	
 	private LocalDateTime modAt;
+
 }

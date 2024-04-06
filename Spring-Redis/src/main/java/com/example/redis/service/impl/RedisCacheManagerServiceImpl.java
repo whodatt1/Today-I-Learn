@@ -29,7 +29,6 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 	@CachePut(value = "User", key = "#user.userId", cacheManager = "cacheManager")
 	public User insertUserWithCM(User user) throws UserExistsException {
 		Optional<User> userChk = redisCacheManagerRepository.findById(user.getUserId());
-		
 		if(userChk.isPresent()) {
 			throw new UserExistsException("이미 존재하는 유저입니다!");
 		}
