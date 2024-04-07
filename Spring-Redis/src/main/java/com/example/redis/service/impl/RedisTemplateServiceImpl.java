@@ -1,9 +1,11 @@
 package com.example.redis.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -86,12 +88,19 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 	}
 
 	@Override
-	public List<Movie> getMovieListAllWithTemp() {
+	public List<Movie> getMovieListAllWithTemp(HashMap<String, Object> params) {
+		
+		// 이부분도 그냥 Cache에 있으면 캐시 데이터 가져오고 없으면 DB 데이터 가져오도록..
+		
+		String delYn = String.valueOf(params.get("delYn"));
 		
 		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
 		// 적당한 리스트 크기라 가정하여 Redis 에서 가져오는 것으로 구현
 		Map<String, Movie> entries = hashOperations.entries(hashReference);
-		List<Movie> movieList = new ArrayList<>(entries.values());
+		List<Movie> movieList = entries.values()
+									   .stream()
+									   .filter(movie -> movie.getDelYn().equals(delYn))
+									   .collect(Collectors.toList());
 		
 		return movieList;
 	}

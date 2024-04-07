@@ -1,6 +1,7 @@
 package com.example.redis.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,9 @@ import com.example.redis.repo.RedisCacheManagerRepository;
 import com.example.redis.service.RedisCacheManagerService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
@@ -52,7 +55,8 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 	@Override
 	@Caching(evict = {
 			@CacheEvict(value = "User", key =  "#userId", cacheManager = "cacheManager"),
-			@CacheEvict(value = "User", key =  "'all'", cacheManager = "cacheManager")
+			@CacheEvict(value = "User", key =  "'allY'", cacheManager = "cacheManager"),
+			@CacheEvict(value = "User", key =  "'allN'", cacheManager = "cacheManager")
 	})
 	public void deleteUserWithCM(String userId) throws UserNotFoundException {
 		Optional<User> userChk = Optional.ofNullable(redisCacheManagerRepository.findById(userId))
@@ -62,9 +66,12 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 	}
 
 	@Override
-	@Cacheable(value = "User", key = "'all'", cacheManager = "cacheManager")
-	public List<User> getUserListAllWithCM() {
-		Iterable<User> all = redisCacheManagerRepository.findAll();
+	@Cacheable(value = "User", key = "'all' + #params.delYn", cacheManager = "cacheManager") // 테스트하면서 문제 없는지 확인
+	public List<User> getUserListAllWithCM(HashMap<String, Object> params) {
+		
+		Iterable<User> all = redisCacheManagerRepository.findAllByDelYn(params);
+		
+		log.info("ServiceImpl getList {}", all);
 		
 		List<User> uList = new ArrayList<>();
 		
@@ -78,6 +85,8 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 	public User getUserDetailByIdWithCM(String userId) throws UserNotFoundException {
 		Optional<User> userChk = Optional.ofNullable(redisCacheManagerRepository.findById(userId))
 				.orElseThrow(() -> new UserNotFoundException("해당 유저를 찾을 수 없습니다!"));
+		
+		log.info("ServiceImpl getUserOne {}", userChk.get());
 		
 		return userChk.get();
 	}

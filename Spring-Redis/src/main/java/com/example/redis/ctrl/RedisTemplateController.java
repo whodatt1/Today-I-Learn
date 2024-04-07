@@ -1,5 +1,6 @@
 package com.example.redis.ctrl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,8 +48,8 @@ public class RedisTemplateController {
 	}
 	
 	@GetMapping("/redistemp/all")
-	public List<Movie> getMovieListAllWithTemp() {
-		List<Movie> mList = redisTemplateService.getMovieListAllWithTemp();
+	public List<Movie> getMovieListAllWithTemp(@RequestParam HashMap<String, Object> params) {
+		List<Movie> mList = redisTemplateService.getMovieListAllWithTemp(params);
 		return mList;
 	}
 	

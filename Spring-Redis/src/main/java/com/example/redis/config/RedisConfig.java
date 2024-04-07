@@ -43,9 +43,12 @@ public class RedisConfig {
 	// 레디스 구조에 맞는 서버 정보를 추가
 	@Bean
 	RedisConnectionFactory redisConnectionFactory() {
-		return new LettuceConnectionFactory(
-					new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort())
-				);
+		RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+		redisStandaloneConfiguration.setHostName(redisProperties.getHost());
+		redisStandaloneConfiguration.setPort(redisProperties.getPort());
+		redisStandaloneConfiguration.setPassword(redisProperties.getPassword());
+		LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisStandaloneConfiguration);
+		return lettuceConnectionFactory;
 	}
 	
 	// CacheManager 사용을 위한 Bean
