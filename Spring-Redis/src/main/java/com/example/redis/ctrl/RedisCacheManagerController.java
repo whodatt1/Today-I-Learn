@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,13 +48,15 @@ public class RedisCacheManagerController {
 		return updUser;
 	}
 	
-	@DeleteMapping("/rediscm/del/{userId}")
-	public void deleteUserWithCM(@PathVariable String userId) {
-		redisCacheManagerService.deleteUserWithCM(userId);
+	@PutMapping("/rediscm/del")
+	public User deleteUserWithCM(User user) {
+		User delUser = redisCacheManagerService.deleteUserWithCM(user);
+		return delUser;
 	}
 	
 	@GetMapping("/rediscm/all")
-	public List<User> getUserListAllWithCM(HashMap<String, Object> params) {
+	public List<User> getUserListAllWithCM(@RequestParam HashMap<String, Object> params) {
+		
 		List<User> uList = redisCacheManagerService.getUserListAllWithCM(params);
 		
 		log.info("Contoller getList {}", uList);

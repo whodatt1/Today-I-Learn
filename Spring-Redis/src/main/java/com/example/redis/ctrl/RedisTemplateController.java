@@ -42,9 +42,9 @@ public class RedisTemplateController {
 		return updMovie;
 	}
 	
-	@DeleteMapping("/redistemp/del/{movieCd}")
-	public void deleteMovieWithTemp(@PathVariable String movieCd) {
-		redisTemplateService.deleteMovieWithTemp(movieCd);
+	@PutMapping("/redistemp/del")
+	public void deleteMovieWithTemp(Movie movie) {
+		redisTemplateService.deleteMovieWithTemp(movie);
 	}
 	
 	@GetMapping("/redistemp/all")

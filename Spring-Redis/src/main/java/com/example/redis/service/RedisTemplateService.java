@@ -9,7 +9,7 @@ public interface RedisTemplateService {
 	
 	Movie insertMovieWithTemp(Movie movie);
 	Movie updateMovieWithTemp(Movie movie);
-	void deleteMovieWithTemp(String movieCd);
+	Movie deleteMovieWithTemp(Movie movie);
 	List<Movie> getMovieListAllWithTemp(HashMap<String, Object> params);
 	Movie getMovieDetailByIdWithTemp(String movieCd);
 }

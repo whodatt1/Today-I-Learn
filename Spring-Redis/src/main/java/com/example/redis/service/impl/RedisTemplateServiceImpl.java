@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.example.redis.dto.Movie;
+import com.example.redis.dto.User;
 import com.example.redis.exception.movie.MovieExistsException;
 import com.example.redis.exception.movie.MovieNotFoundException;
 import com.example.redis.repo.RedisTemplateRepository;
@@ -71,20 +72,22 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 	}
 
 	@Override
-	public void deleteMovieWithTemp(String movieCd) {
+	public Movie deleteMovieWithTemp(Movie movie) {
 		
 		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
 		// DB 데이터 체크
-		Optional<Movie> movieChkDB = redisTemplateRepository.findById(movieCd);
+		Optional<Movie> movieChkDB = redisTemplateRepository.findById(movie.getMovieCd());
 		// Redis 데이터 체크
-		Optional<Movie> movieChkRedis = Optional.ofNullable(hashOperations.get(hashReference, movieCd));
+		Optional<Movie> movieChkRedis = Optional.ofNullable(hashOperations.get(hashReference, movie.getMovieCd()));
 		
 		if (!movieChkDB.isPresent() && !movieChkRedis.isPresent()) {
 			throw new MovieNotFoundException("Redis와 DB에 존재하지 않는 영화입니다.");
 		} else {
-			hashOperations.delete(hashReference, movieChkRedis.get().getMovieCd());
-			redisTemplateRepository.delete(movieChkDB.get());
+			hashOperations.put(hashReference, movie.getMovieCd(), movie);
+			redisTemplateRepository.save(movie);
 		}
+		
+		return movie;
 	}
 
 	@Override
@@ -95,14 +98,24 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 		String delYn = String.valueOf(params.get("delYn"));
 		
 		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
-		// 적당한 리스트 크기라 가정하여 Redis 에서 가져오는 것으로 구현
 		Map<String, Movie> entries = hashOperations.entries(hashReference);
 		List<Movie> movieList = entries.values()
 									   .stream()
 									   .filter(movie -> movie.getDelYn().equals(delYn))
 									   .collect(Collectors.toList());
 		
-		return movieList;
+		if (movieList.size() > 0) {
+			return movieList;
+		} else {
+			Iterable<Movie> all = redisTemplateRepository.findAllByDelYn(params);
+			
+			List<Movie> mList = new ArrayList<>();
+			
+			all.forEach(mList::add);
+			
+			return mList;
+		}
+		
 	}
 
 	@Override

@@ -29,12 +29,12 @@
 			
 			<div class="py-3">
 		        <div class="col-md-6 pb-3">
-					<select class="form-select form-select-sm mb-3">
-						  <option selected>삭제 여부 선택</option>
+					<select class="form-select form-select-sm mb-3" id="list-delYn">
+						  <option value="" selected>삭제 여부 선택</option>
 						  <option value="Y">Y</option>
 						  <option value="N">N</option>
 					</select>
-	              	<button type="button" class="btn btn-primary" th:onclick="mainView.getUserList()">리스트</button>
+	              	<button type="button" class="btn btn-primary" th:onclick="rcView.getUserList()">리스트</button>
             	</div>
             	
 		        <div class="col-md-12">
@@ -57,11 +57,12 @@
 		var rcView = {
 			insertUser : function() {
 					const userId = $("#user-id").val();
-					const userAge = $("#user-name").val();
+					const userName = $("#user-name").val();
 					
 					const user = {
-						userId : userName,
-						userName : userAge
+						userId : userId,
+						userName : userName,
+						delYn : "N"
 					}
 					
 					$.ajax({
@@ -88,12 +89,22 @@
 					
 					$("[name='user-item-add']").remove();
 					
+					const delYn = $("#list-delYn option:selected").val();
+					
+					if (delYn == "") {
+						alert("삭제 여부를 선택해주세요!");
+					}
+					
+					const params = {
+						delYn : delYn
+					}
+					
 					$.ajax({
-						url: '/rediscm/all',
+						url: encodeURI('/rediscm/all'),
 						type: 'get',
 						dataType: 'json',
+						data: params,
 						async: true,
-						
 						success : function(dataList) {
 							if (dataList != null) {
 								rcView.spreadList(dataList);
@@ -113,7 +124,7 @@
 							var listRow = $("#user-item").clone();
 							listRow.appendTo($("#user-list"));
 							
-							listRow.attr("id", data.id);
+							listRow.attr("id", data.userId);
 							listRow.attr("name", "user-item-add");
 							listRow.find("#user-item-name").val(data.userName);
 							
@@ -121,13 +132,13 @@
 								event.stopImmediatePropagation();
 								
 								$.ajax({
-									url: '/rediscm/detail/' + event.data.id,
+									url: '/rediscm/detail/' + event.data.userId,
 									type: 'get',
 									dataType: 'json',
 									async: true,
 									success : function(data) {
 										if (data != null) {
-											alert("유저 아이디 : " + data.id + " 유저 이름 : " + data.name)
+											alert("유저 아이디 : " + data.userId + " 유저 이름 : " + data.userName)
 										}
 									},
 									error : function(error) {
@@ -139,10 +150,10 @@
 							listRow.find("#user-mod").on("click", data, function(event) {
 								event.stopImmediatePropagation();
 								
-								var modListRow = $("#" + data.id);
-								var modUserName = modListRow.find("#user-item-id").val();
+								const modListRow = $("#" + data.userId);
+								const modUserName = modListRow.find("#user-item-name").val();
 								
-								var user = {
+								const user = {
 									userId : event.data.userId,
 									userName : modUserName,
 								};
@@ -168,10 +179,19 @@
 							listRow.find("#user-del").on("click", data, function(event) {
 								event.stopImmediatePropagation();
 								
+								const modListRow = $("#" + data.userId);
+								
+								const user = {
+									userId : event.data.userId,
+									delYn : "Y"
+								};
+								
 								$.ajax({
-									url: '/rediscm/del/' + event.data.userId,
-									type: 'delete',
-									//dataType: 'json', // 컨트롤러 리턴값 void라 주석처리
+									url: '/rediscm/del',
+									type: 'put',
+									contentType: 'application/json; charset=utf-8',
+									dataType: 'json',
+									data: JSON.stringify(user),
 									async: true,
 									success : function() {
 										console.log("성공");

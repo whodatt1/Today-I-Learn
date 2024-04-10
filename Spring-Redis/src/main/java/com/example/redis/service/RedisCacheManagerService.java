@@ -8,7 +8,7 @@ import com.example.redis.dto.User;
 public interface RedisCacheManagerService {
 	User insertUserWithCM(User user);
 	User updateUserWithCM(User user);
-	void deleteUserWithCM(String userId);
+	User deleteUserWithCM(User user);
 	List<User> getUserListAllWithCM(HashMap<String, Object> params);
 	User getUserDetailByIdWithCM(String userId);
 }

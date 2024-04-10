@@ -53,20 +53,25 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 	}
 
 	@Override
+	@CachePut(value = "User", key = "#user.userId", cacheManager = "cacheManager")
 	@Caching(evict = {
 			@CacheEvict(value = "User", key =  "#userId", cacheManager = "cacheManager"),
 			@CacheEvict(value = "User", key =  "'allY'", cacheManager = "cacheManager"),
 			@CacheEvict(value = "User", key =  "'allN'", cacheManager = "cacheManager")
 	})
-	public void deleteUserWithCM(String userId) throws UserNotFoundException {
-		Optional<User> userChk = Optional.ofNullable(redisCacheManagerRepository.findById(userId))
+	public User deleteUserWithCM(User user) throws UserNotFoundException {
+		Optional<User> userChk = Optional.ofNullable(redisCacheManagerRepository.findById(user.getUserId()))
 				.orElseThrow(() -> new UserNotFoundException("해당 유저를 찾을 수 없습니다!"));
 		
-		redisCacheManagerRepository.delete(userChk.get());
+		if(userChk.isPresent()) {
+			user = redisCacheManagerRepository.save(user);
+		}
+		
+		return user;
 	}
 
 	@Override
-	@Cacheable(value = "User", key = "'all' + #params.delYn", cacheManager = "cacheManager") // 테스트하면서 문제 없는지 확인
+	@Cacheable(value = "User", key = "'all' + #params['delYn']", cacheManager = "cacheManager") // 테스트하면서 문제 없는지 확인
 	public List<User> getUserListAllWithCM(HashMap<String, Object> params) {
 		
 		Iterable<User> all = redisCacheManagerRepository.findAllByDelYn(params);
