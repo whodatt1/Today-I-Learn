@@ -1,18 +1,16 @@
 package com.example.redis.dto;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 // cacheManager 사용을 위한 DTO
 
 @Getter
-@Builder
 @Entity
-public class User {
+@NoArgsConstructor
+public class User extends BaseEntity {
 	
 	@Id
 	private String userId;
@@ -21,7 +19,4 @@ public class User {
 	
 	private String delYn;
 	
-	private LocalDateTime regAt;
-	
-	private LocalDateTime modAt;
 }

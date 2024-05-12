@@ -1,17 +1,16 @@
 package com.example.redis.dto;
 
 
-import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
 @Entity
-public class Movie {
+@NoArgsConstructor
+public class Movie extends BaseEntity {
 	
 	@Id
 	private String movieCd;
@@ -20,8 +19,4 @@ public class Movie {
 	
 	private String delYn;
 	
-	private LocalDateTime regAt;
-	
-	private LocalDateTime modAt;
-
 }

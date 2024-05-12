@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,19 +32,19 @@ public class RedisTemplateController {
 	}
 	
 	@PostMapping("/redistemp/ins")
-	public Movie insertMovieWithTemp(Movie movie) {
+	public Movie insertMovieWithTemp(@RequestBody Movie movie) {
 		Movie newMovie = redisTemplateService.insertMovieWithTemp(movie);
 		return newMovie;
 	}
 	
 	@PutMapping("/redistemp/upd")
-	public Movie updateMovieWithTemp(Movie movie) {
+	public Movie updateMovieWithTemp(@RequestBody Movie movie) {
 		Movie updMovie = redisTemplateService.updateMovieWithTemp(movie);
 		return updMovie;
 	}
 	
 	@PutMapping("/redistemp/del")
-	public void deleteMovieWithTemp(Movie movie) {
+	public void deleteMovieWithTemp(@RequestBody Movie movie) {
 		redisTemplateService.deleteMovieWithTemp(movie);
 	}
 	
