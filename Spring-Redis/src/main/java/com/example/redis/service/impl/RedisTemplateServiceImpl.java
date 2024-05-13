@@ -53,7 +53,7 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 	}
 
 	@Override
-	public Movie updateMovieWithTemp(Movie movie) {
+	public Movie updateMovieWithTemp(Movie movie) throws MovieNotFoundException {
 		
 		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
 		// DB 데이터 체크
@@ -72,7 +72,7 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 	}
 
 	@Override
-	public Movie deleteMovieWithTemp(Movie movie) {
+	public Movie deleteMovieWithTemp(Movie movie) throws MovieNotFoundException {
 		
 		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
 		// DB 데이터 체크
@@ -119,7 +119,7 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 	}
 
 	@Override
-	public Movie getMovieDetailByIdWithTemp(String movieCd) {
+	public Movie getMovieDetailByIdWithTemp(String movieCd) throws MovieNotFoundException {
 		
 		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
 		// // DB 데이터 가져오기
@@ -128,10 +128,14 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 		Optional<Movie> movieDetRedis = Optional.ofNullable(hashOperations.get(hashReference, movieCd));
 		
 		// Redis에 저장된 값이 있다면 Redis에서 가져옴
-		if (movieDetRedis.isPresent()) {
-			return movieDetRedis.get();
+		if (!movieDetRedis.isPresent() && !movieDetDB.isPresent()) {
+			throw new MovieNotFoundException("Redis와 DB에 존재하지 않는 영화입니다.");
 		} else {
-			return movieDetDB.get();
+			if (movieDetRedis.isPresent()) {
+				return movieDetRedis.get();
+			} else {
+				return movieDetDB.get();
+			}
 		}
 	}
 

@@ -4,6 +4,8 @@ package com.example.redis.ctrl;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,39 +40,67 @@ public class RedisCacheManagerController {
 	}
 	
 	@PostMapping("/rediscm/ins")
-	public User insertUserWithCM(@RequestBody User user) {
-		User newUser = redisCacheManagerService.insertUserWithCM(user);
-		return newUser;
+	public ResponseEntity<?> insertUserWithCM(@RequestBody User user) {
+		try {
+			User newUser = redisCacheManagerService.insertUserWithCM(user);
+			
+			log.info("Contoller insertUserWithCM");
+			
+			return new ResponseEntity<>(newUser, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PutMapping("/rediscm/upd")
-	public User updateUserWithCM(@RequestBody User user) {
-		User updUser = redisCacheManagerService.updateUserWithCM(user);
-		return updUser;
+	public ResponseEntity<?> updateUserWithCM(@RequestBody User user) {
+		try {
+			User updUser = redisCacheManagerService.updateUserWithCM(user);
+			
+			log.info("Contoller updateUserWithCM");
+			
+			return new ResponseEntity<>(updUser, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PutMapping("/rediscm/del")
-	public User deleteUserWithCM(@RequestBody User user) {
-		User delUser = redisCacheManagerService.deleteUserWithCM(user);
-		return delUser;
+	public ResponseEntity<?> deleteUserWithCM(@RequestBody User user) {
+		try {
+			User delUser = redisCacheManagerService.deleteUserWithCM(user);
+			
+			log.info("Contoller deleteUserWithCM");
+			
+			return new ResponseEntity<>(delUser, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping("/rediscm/all")
-	public List<User> getUserListAllWithCM(@RequestParam HashMap<String, Object> params) {
-		
-		List<User> uList = redisCacheManagerService.getUserListAllWithCM(params);
-		
-		log.info("Contoller getList {}", uList);
-		
-		return uList;
+	public ResponseEntity<?> getUserListAllWithCM(@RequestParam HashMap<String, Object> params) {
+		try {
+			List<User> uList = redisCacheManagerService.getUserListAllWithCM(params);
+			
+			log.info("Contoller getUserListAllWithCM");
+			
+			return new ResponseEntity<>(uList, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping("/rediscm/detail/{userId}")
-	public User getUserDetailByIdWithCM(@PathVariable String userId) {
-		User detUser = redisCacheManagerService.getUserDetailByIdWithCM(userId);
-		
-		log.info("Controller getUserOne {}", detUser);
-		
-		return detUser;
+	public ResponseEntity<?> getUserDetailByIdWithCM(@PathVariable String userId) {
+		try {
+			User detUser = redisCacheManagerService.getUserDetailByIdWithCM(userId);
+			
+			log.info("Controller getUserDetailByIdWithCM");
+			
+			return new ResponseEntity<>(detUser, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+		}
 	}
 }

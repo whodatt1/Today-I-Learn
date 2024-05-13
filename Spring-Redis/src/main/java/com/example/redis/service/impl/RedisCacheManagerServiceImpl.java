@@ -31,7 +31,10 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 	// cacheManger 속성에 bean으로 등록된 cacheManger 명시
 	@CachePut(value = "User", key = "#user.userId", cacheManager = "cacheManager")
 	public User insertUserWithCM(User user) throws UserExistsException {
+		log.info("ServiceImpl insertUserWithCM");
+		
 		Optional<User> userChk = redisCacheManagerRepository.findById(user.getUserId());
+		
 		if(userChk.isPresent()) {
 			throw new UserExistsException("이미 존재하는 유저입니다!");
 		}
@@ -42,6 +45,8 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 	@Override
 	@CachePut(value = "User", key = "#user.userId", cacheManager = "cacheManager")
 	public User updateUserWithCM(User user) throws UserNotFoundException {
+		log.info("ServiceImpl updateUserWithCM");
+		
 		Optional<User> userChk = Optional.ofNullable(redisCacheManagerRepository.findById(user.getUserId()))
 				.orElseThrow(() -> new UserNotFoundException("해당 유저를 찾을 수 없습니다!"));
 		
@@ -60,6 +65,8 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 			@CacheEvict(value = "User", key =  "'allN'", cacheManager = "cacheManager")
 	})
 	public User deleteUserWithCM(User user) throws UserNotFoundException {
+		log.info("ServiceImpl deleteUserWithCM");
+		
 		Optional<User> userChk = Optional.ofNullable(redisCacheManagerRepository.findById(user.getUserId()))
 				.orElseThrow(() -> new UserNotFoundException("해당 유저를 찾을 수 없습니다!"));
 		
@@ -72,7 +79,8 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 
 	@Override
 	@Cacheable(value = "User", key = "'all' + #params['delYn']", cacheManager = "cacheManager") // 테스트하면서 문제 없는지 확인
-	public List<User> getUserListAllWithCM(HashMap<String, Object> params) {
+	public List<User> getUserListAllWithCM(HashMap<String, Object> params) throws UserNotFoundException {
+		log.info("ServiceImpl getUserListAllWithCM");
 		
 		Iterable<User> all = redisCacheManagerRepository.findAllByDelYn(params);
 		
@@ -82,12 +90,18 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 		
 		all.forEach(uList::add);
 		
-		return uList;
+		if (uList == null || uList.size() == 0) {
+			throw new UserNotFoundException("유저가 존재하지 않습니다!");
+		} else {
+			return uList;
+		}
 	}
 
 	@Override
 	@Cacheable(value = "User", key = "#userId", unless = "#result == null", cacheManager = "cacheManager")
 	public User getUserDetailByIdWithCM(String userId) throws UserNotFoundException {
+		log.info("ServiceImpl getUserDetailByIdWithCM");
+		
 		Optional<User> userChk = Optional.ofNullable(redisCacheManagerRepository.findById(userId))
 				.orElseThrow(() -> new UserNotFoundException("해당 유저를 찾을 수 없습니다!"));
 		
