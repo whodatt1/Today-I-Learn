@@ -11,6 +11,202 @@
 		<div class="container">
 			<h2>Redis Template</h2>
 			
+			<div class="row py-3">
+				<div class="col-md-6">
+	            	<label for="movie-cd" class="form-label">영화 코드</label>
+	              	<input type="text" class="form-control" id="movie-cd" placeholder="" required>
+	            </div>
+	
+	            <div class="col-md-6">
+	              	<label for="movie-name" class="form-label">영화 이름</label>
+	              	<input type="text" class="form-control" id="movie-name" placeholder="" required>
+            	</div>
+            	
+            	<div class="col-md-6 py-3">
+	              	<button type="button" class="btn btn-success" th:onclick="rcView.insertMovie()">유저 생성</button>
+            	</div>
+			</div>
+			
+			<div class="py-3">
+		        <div class="col-md-6 pb-3">
+					<select class="form-select form-select-sm mb-3" id="list-delYn">
+						  <option value="" selected>삭제 여부 선택</option>
+						  <option value="Y">Y</option>
+						  <option value="N">N</option>
+					</select>
+	              	<button type="button" class="btn btn-primary" th:onclick="rcView.getMovieList()">리스트</button>
+            	</div>
+            	
+		        <div class="col-md-12">
+	              	<ul class="list-group" id="user-list">
+						<li class="list-group-item list-group-item-action" id="movie-item" style="display: none;">
+							<div class="input-group">
+								<label for="item-name" class="form-label">유저 이름</label>
+								<input type="text" id="user-item-name" class="form-control">
+								<button class="btn btn-outline-secondary" type="button" id="movie-detail">상세</button>
+								<button class="btn btn-outline-secondary" type="button" id="movie-mod">수정</button>
+	  							<button class="btn btn-outline-secondary" type="button" id="movie-del">삭제</button>
+  							</div>
+						</li>
+					</ul>
+            	</div>
+		    </div>
 		</div>
 	</body>
+	<script>
+		var rcView = {
+			insertMovie : function() {
+					const movieCd = $("#movie-cd").val();
+					const movieName = $("#movie-name").val();
+					
+					const movie = {
+						movieCd : movieCd,
+						movieName : movieName,
+						delYn : "N"
+					}
+					
+					$.ajax({
+						url: '/redistemp/ins',
+						type: 'post',
+						contentType: 'application/json; charset=utf-8',
+						dataType: 'json',
+						data: JSON.stringify(movie),
+						async: true,
+						success : function(data) {
+							if (data != null) {
+								$("#movie-cd").val("");
+								$("#movie-name").val("");
+								alert("영화 아이디 : " + data.movieCd + " 영화 이름 : " + data.movieName + " 생성 일자 : " + data.regAt + " 생성 완료!")
+							}
+						},
+						error : function (error) {
+							alert(error.responseText);
+						}
+					})
+				},
+				
+				getMovieList : function() {
+					
+					$("[name='movie-item-add']").remove();
+					
+					const delYn = $("#list-delYn option:selected").val();
+					
+					if (delYn == "") {
+						alert("삭제 여부를 선택해주세요!");
+					}
+					
+					const params = {
+						delYn : delYn
+					}
+					
+					$.ajax({
+						url: encodeURI('/redistemp/all'),
+						type: 'get',
+						dataType: 'json',
+						data: params,
+						async: true,
+						success : function(dataList) {
+							if (dataList != null) {
+								rcView.spreadList(dataList);
+							}
+						},
+						error : function(error) {
+							alert(error.responseText);
+						}
+					})
+				},
+				
+				spreadList : function(dataList) {
+					if (typeof dataList != "undefined" && dataList != null && typeof dataList.length != "undefined" && dataList.length > 0) {
+						for(var i = 0; i < dataList.length; i++) {
+							var data = dataList[i];
+							
+							var listRow = $("#movie-item").clone();
+							listRow.appendTo($("#movie-list"));
+							
+							listRow.attr("id", data.movieCd);
+							listRow.attr("name", "movie-item-add");
+							listRow.find("#movie-item-name").val(data.userName);
+							
+							listRow.find("#movie-detail").on("click", data, function(event) {
+								event.stopImmediatePropagation();
+								
+								$.ajax({
+									url: '/redistemp/detail/' + event.data.movieCd,
+									type: 'get',
+									dataType: 'json',
+									async: true,
+									success : function(data) {
+										if (data != null) {
+											alert("유저 아이디 : " + data.movieCd + " 유저 이름 : " + data.movieName)
+										}
+									},
+									error : function(error) {
+										alert(error.responseText);
+									}
+								})
+							})
+							
+							listRow.find("#movie-mod").on("click", data, function(event) {
+								event.stopImmediatePropagation();
+								
+								const modListRow = $("#" + data.userId);
+								const modMovieName = modListRow.find("#movie-item-name").val();
+								
+								const movie = {
+									movieCd : event.data.movieCd,
+									movieName : modMovieName,
+								};
+								
+								$.ajax({
+									url: '/redistemp/upd',
+									type: 'put',
+									contentType: 'application/json; charset=utf-8',
+									dataType: 'json',
+									data: JSON.stringify(movie),
+									async: true,
+									success : function(data) {
+										if (data != null) {
+											rcView.getMovieList();
+										}
+									},
+									error : function (error) {
+										alert(error.responseText);
+									}
+								})
+							})
+							
+							listRow.find("#movie-del").on("click", data, function(event) {
+								event.stopImmediatePropagation();
+								
+								const modListRow = $("#" + data.movieCd);
+								
+								const movie = {
+									movieCd : event.data.movieCd,
+									delYn : "Y"
+								};
+								
+								$.ajax({
+									url: '/redistemp/del',
+									type: 'put',
+									contentType: 'application/json; charset=utf-8',
+									dataType: 'json',
+									data: JSON.stringify(user),
+									async: true,
+									success : function() {
+										console.log("성공");
+										rcView.getMovieList();
+									},
+									error : function(error) {
+										alert(error.responseText);
+									}
+								})
+							})
+							
+							listRow.show();
+						}
+					}
+				}
+		}
+	</script>
 </html>
