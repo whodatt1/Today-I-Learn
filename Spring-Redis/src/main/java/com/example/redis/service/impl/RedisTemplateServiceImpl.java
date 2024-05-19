@@ -44,7 +44,6 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 		if (movieChkDB.isPresent() && movieChkRedis.isPresent()) {
 			throw new MovieExistsException("Redis와 DB에 이미 존재하는 영화입니다.");
 		} else {
-			
 			hashOperations.putIfAbsent(hashReference, movie.getMovieCd(), movie);
 			redisTemplateRepository.save(movie);
 		}
