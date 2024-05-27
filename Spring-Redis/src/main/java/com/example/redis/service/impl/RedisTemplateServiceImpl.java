@@ -44,11 +44,14 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 		if (movieChkDB.isPresent() && movieChkRedis.isPresent()) {
 			throw new MovieExistsException("Redis와 DB에 이미 존재하는 영화입니다.");
 		} else {
-			hashOperations.putIfAbsent(hashReference, movie.getMovieCd(), movie);
-			redisTemplateRepository.save(movie);
+			Movie jpaMovie = redisTemplateRepository.save(movie);
+			
+			System.out.println(jpaMovie.getRegAt() +"" +  jpaMovie.getModAt());
+			
+			hashOperations.putIfAbsent(hashReference, movie.getMovieCd(), jpaMovie);
+			
+			return jpaMovie;
 		}
-		
-		return movie;
 	}
 
 	@Override
@@ -63,11 +66,12 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 		if (!movieChkDB.isPresent() && !movieChkRedis.isPresent()) {
 			throw new MovieNotFoundException("Redis와 DB에 존재하지 않는 영화입니다.");
 		} else {
-			hashOperations.put(hashReference, movie.getMovieCd(), movie);
-			redisTemplateRepository.save(movie);
+			Movie jpaMovie = redisTemplateRepository.save(movie);
+			
+			hashOperations.put(hashReference, movie.getMovieCd(), jpaMovie);
+			
+			return jpaMovie;
 		}
-		
-		return movie;
 	}
 
 	@Override
@@ -82,11 +86,12 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 		if (!movieChkDB.isPresent() && !movieChkRedis.isPresent()) {
 			throw new MovieNotFoundException("Redis와 DB에 존재하지 않는 영화입니다.");
 		} else {
-			hashOperations.put(hashReference, movie.getMovieCd(), movie);
-			redisTemplateRepository.save(movie);
+			Movie jpaMovie = redisTemplateRepository.save(movie);
+			
+			hashOperations.put(hashReference, movie.getMovieCd(), jpaMovie);
+			
+			return jpaMovie;
 		}
-		
-		return movie;
 	}
 
 	@Override

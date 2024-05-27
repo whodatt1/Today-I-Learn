@@ -38,7 +38,7 @@
             	</div>
             	
 		        <div class="col-md-12">
-	              	<ul class="list-group" id="user-list">
+	              	<ul class="list-group" id="movie-list">
 						<li class="list-group-item list-group-item-action" id="movie-item" style="display: none;">
 							<div class="input-group">
 								<label for="item-name" class="form-label">영화 이름</label>
@@ -86,7 +86,7 @@
 				},
 				
 				getMovieList : function() {
-					
+					console.log("리스트");
 					$("[name='movie-item-add']").remove();
 					
 					const delYn = $("#list-delYn option:selected").val();
@@ -107,6 +107,7 @@
 						async: true,
 						success : function(dataList) {
 							if (dataList != null) {
+								console.log(dataList);
 								rcView.spreadList(dataList);
 							}
 						},
@@ -126,7 +127,7 @@
 							
 							listRow.attr("id", data.movieCd);
 							listRow.attr("name", "movie-item-add");
-							listRow.find("#movie-item-name").val(data.userName);
+							listRow.find("#movie-item-name").val(data.movieName);
 							
 							listRow.find("#movie-detail").on("click", data, function(event) {
 								event.stopImmediatePropagation();
