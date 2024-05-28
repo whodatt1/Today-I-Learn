@@ -46,8 +46,6 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 		} else {
 			Movie jpaMovie = redisTemplateRepository.save(movie);
 			
-			System.out.println(jpaMovie.getRegAt() +"" +  jpaMovie.getModAt());
-			
 			hashOperations.putIfAbsent(hashReference, movie.getMovieCd(), jpaMovie);
 			
 			return jpaMovie;
@@ -136,6 +134,7 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 			throw new MovieNotFoundException("Redis와 DB에 존재하지 않는 영화입니다.");
 		} else {
 			if (movieDetRedis.isPresent()) {
+				System.out.println("여기ㅣㅣㅣ");
 				return movieDetRedis.get();
 			} else {
 				return movieDetDB.get();

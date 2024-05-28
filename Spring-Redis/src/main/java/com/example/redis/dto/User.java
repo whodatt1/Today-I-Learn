@@ -1,5 +1,6 @@
 package com.example.redis.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @EntityListeners(value = { AuditingEntityListener.class })
-public class User {
+public class User implements Serializable {
 	
 	@Id
 	private String userId;

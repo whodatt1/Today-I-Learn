@@ -58,7 +58,6 @@
 			insertUser : function() {
 					const userId = $("#user-id").val();
 					const userName = $("#user-name").val();
-					
 					const user = {
 						userId : userId,
 						userName : userName,
@@ -155,7 +154,7 @@
 								
 								const user = {
 									userId : event.data.userId,
-									userName : modUserName,
+									userName : modUserName
 								};
 								
 								$.ajax({
