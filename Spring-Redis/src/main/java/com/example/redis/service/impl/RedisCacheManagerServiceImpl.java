@@ -31,6 +31,9 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 	@Override
 	// cacheManger 속성에 bean으로 등록된 cacheManger 명시
 	@CachePut(value = "User", key = "#user.userId", cacheManager = "cacheManager")
+	@Caching(evict = {
+			@CacheEvict(value = "User", key =  "'allN'", cacheManager = "cacheManager")
+	})
 	public User insertUserWithCM(User user) throws UserExistsException {
 		log.info("ServiceImpl insertUserWithCM");
 		
@@ -45,14 +48,20 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 
 	@Override
 	@CachePut(value = "User", key = "#user.userId", cacheManager = "cacheManager")
+	@Caching(evict = {
+			@CacheEvict(value = "User", key =  "'allY'", cacheManager = "cacheManager"),
+			@CacheEvict(value = "User", key =  "'allN'", cacheManager = "cacheManager")
+	})
 	public User updateUserWithCM(User user) throws UserNotFoundException {
 		log.info("ServiceImpl updateUserWithCM");
 		
 		Optional<User> userChk = Optional.ofNullable(redisCacheManagerRepository.findById(user.getUserId()))
 				.orElseThrow(() -> new UserNotFoundException("해당 유저를 찾을 수 없습니다!"));
 		
+		userChk.get().setUserName(user.getUserName());
+		
 		if(userChk.isPresent()) {
-			user = redisCacheManagerRepository.save(user);
+			user = redisCacheManagerRepository.save(userChk.get());
 		}
 		
 		return user;
@@ -61,7 +70,6 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 	@Override
 	@CachePut(value = "User", key = "#user.userId", cacheManager = "cacheManager")
 	@Caching(evict = {
-			@CacheEvict(value = "User", key =  "#userId", cacheManager = "cacheManager"),
 			@CacheEvict(value = "User", key =  "'allY'", cacheManager = "cacheManager"),
 			@CacheEvict(value = "User", key =  "'allN'", cacheManager = "cacheManager")
 	})
@@ -71,8 +79,10 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 		Optional<User> userChk = Optional.ofNullable(redisCacheManagerRepository.findById(user.getUserId()))
 				.orElseThrow(() -> new UserNotFoundException("해당 유저를 찾을 수 없습니다!"));
 		
+		userChk.get().setDelYn(user.getDelYn());
+		
 		if(userChk.isPresent()) {
-			user = redisCacheManagerRepository.save(user);
+			user = redisCacheManagerRepository.save(userChk.get());
 		}
 		
 		return user;

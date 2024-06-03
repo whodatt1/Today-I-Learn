@@ -17,10 +17,12 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 // cacheManager 사용을 위한 DTO
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @EntityListeners(value = { AuditingEntityListener.class })

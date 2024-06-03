@@ -59,14 +59,6 @@ public class RedisConfig {
 	@Bean
 	CacheManager cacheManager(RedisConnectionFactory cf) {
 		
-		// GenericJackson2JsonRedisSerializer를 사용하면 class type에 상관없이 직/역직렬화가 가능하지만 날짜 타입에 대해서는 default로 지원이 안되는 것이란 정보 발견 아래코드 추가
-		PolymorphicTypeValidator typeValidator = BasicPolymorphicTypeValidator.builder()
-																			  .allowIfSubType(Object.class)
-																			  .build();
-		
-		objectMapper.registerModule(new JavaTimeModule());
-		objectMapper.activateDefaultTyping(typeValidator, ObjectMapper.DefaultTyping.NON_FINAL);
-		
 		RedisCacheConfiguration productConfig = RedisCacheConfiguration.defaultCacheConfig()
 				.computePrefixWith(cacheName -> "prefix::" + cacheName + "::") // Cache Key prefix 설정
 				.disableCachingNullValues() // 캐싱할때 null 값을 비허용
