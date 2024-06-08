@@ -29,11 +29,6 @@
 			
 			<div class="py-3">
 		        <div class="col-md-6 pb-3">
-					<select class="form-select form-select-sm mb-3" id="list-delYn">
-						  <option value="" selected>삭제 여부 선택</option>
-						  <option value="Y">Y</option>
-						  <option value="N">N</option>
-					</select>
 	              	<button type="button" class="btn btn-primary" th:onclick="rcView.getUserList()">리스트</button>
             	</div>
             	
@@ -61,7 +56,6 @@
 					const user = {
 						userId : userId,
 						userName : userName,
-						delYn : "N"
 					}
 					
 					$.ajax({
@@ -88,21 +82,10 @@
 					
 					$("[name='user-item-add']").remove();
 					
-					const delYn = $("#list-delYn option:selected").val();
-					
-					if (delYn == "") {
-						alert("삭제 여부를 선택해주세요!");
-					}
-					
-					const params = {
-						delYn : delYn
-					}
-					
 					$.ajax({
 						url: encodeURI('/rediscm/all'),
 						type: 'get',
 						dataType: 'json',
-						data: params,
 						async: true,
 						success : function(dataList) {
 							if (dataList != null) {
@@ -167,7 +150,7 @@
 									success : function(data) {
 										if (data != null) {
 											alert("수정에 성공하였습니다!");
-											//rcView.getUserList();
+											rcView.getUserList();
 										}
 									},
 									error : function (error) {
@@ -183,7 +166,6 @@
 								
 								const user = {
 									userId : event.data.userId,
-									delYn : "Y"
 								};
 								
 								$.ajax({
@@ -194,7 +176,7 @@
 									data: JSON.stringify(user),
 									async: true,
 									success : function() {
-										console.log("성공");
+										alert("삭제에 성공하였습니다!");
 										rcView.getUserList();
 									},
 									error : function(error) {

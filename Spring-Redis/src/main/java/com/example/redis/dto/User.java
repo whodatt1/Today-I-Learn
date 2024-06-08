@@ -33,8 +33,6 @@ public class User implements Serializable {
 	
 	private String userName;
 	
-	private String delYn;
-	
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@CreatedDate

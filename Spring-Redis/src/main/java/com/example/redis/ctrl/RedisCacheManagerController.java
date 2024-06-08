@@ -79,9 +79,9 @@ public class RedisCacheManagerController {
 	}
 	
 	@GetMapping("/rediscm/all")
-	public ResponseEntity<?> getUserListAllWithCM(@RequestParam HashMap<String, Object> params) {
+	public ResponseEntity<?> getUserListAllWithCM() {
 		try {
-			List<User> uList = redisCacheManagerService.getUserListAllWithCM(params);
+			List<User> uList = redisCacheManagerService.getUserListAllWithCM();
 			
 			log.info("Contoller getUserListAllWithCM");
 			
@@ -91,10 +91,10 @@ public class RedisCacheManagerController {
 		}
 	}
 	
-	@GetMapping("/rediscm/detail/{userId}")
-	public ResponseEntity<?> getUserDetailByIdWithCM(@PathVariable String userId) {
+	@GetMapping("/rediscm/detail/")
+	public ResponseEntity<?> getUserDetailByIdWithCM(@RequestBody User user) {
 		try {
-			User detUser = redisCacheManagerService.getUserDetailByIdWithCM(userId);
+			User detUser = redisCacheManagerService.getUserDetailByIdWithCM(user);
 			
 			log.info("Controller getUserDetailByIdWithCM");
 			
