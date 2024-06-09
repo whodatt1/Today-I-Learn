@@ -1,7 +1,6 @@
 
 package com.example.redis.ctrl;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -12,14 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.redis.dto.User;
 import com.example.redis.service.RedisCacheManagerService;
-import com.example.redis.service.impl.RedisCacheManagerServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,14 +61,13 @@ public class RedisCacheManagerController {
 		}
 	}
 	
-	@PutMapping("/rediscm/del")
+	@DeleteMapping("/rediscm/del")
 	public ResponseEntity<?> deleteUserWithCM(@RequestBody User user) {
 		try {
-			User delUser = redisCacheManagerService.deleteUserWithCM(user);
+			redisCacheManagerService.deleteUserWithCM(user);
 			
 			log.info("Contoller deleteUserWithCM");
-			
-			return new ResponseEntity<>(delUser, HttpStatus.OK);
+			return new ResponseEntity<>(user, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -91,10 +86,10 @@ public class RedisCacheManagerController {
 		}
 	}
 	
-	@GetMapping("/rediscm/detail/")
-	public ResponseEntity<?> getUserDetailByIdWithCM(@RequestBody User user) {
+	@GetMapping("/rediscm/detail/{userId}")
+	public ResponseEntity<?> getUserDetailByIdWithCM(@PathVariable String userId) {
 		try {
-			User detUser = redisCacheManagerService.getUserDetailByIdWithCM(user);
+			User detUser = redisCacheManagerService.getUserDetailByIdWithCM(userId);
 			
 			log.info("Controller getUserDetailByIdWithCM");
 			

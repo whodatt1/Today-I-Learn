@@ -170,7 +170,7 @@
 								
 								$.ajax({
 									url: '/rediscm/del',
-									type: 'put',
+									type: 'delete',
 									contentType: 'application/json; charset=utf-8',
 									dataType: 'json',
 									data: JSON.stringify(user),
@@ -180,11 +180,11 @@
 										rcView.getUserList();
 									},
 									error : function(error) {
+										console.log("에러");
 										alert(error.responseText);
 									}
 								})
 							})
-							
 							listRow.show();
 						}
 					}

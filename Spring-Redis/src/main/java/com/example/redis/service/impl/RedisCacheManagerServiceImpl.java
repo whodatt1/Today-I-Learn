@@ -71,17 +71,15 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 			@CacheEvict(value = "User", key =  "'all'", cacheManager = "cacheManager"),
 			@CacheEvict(value = "User", key =  "#user.userId", cacheManager = "cacheManager")
 	})
-	public User deleteUserWithCM(User user) throws UserNotFoundException {
+	public void deleteUserWithCM(User user) throws UserNotFoundException {
 		log.info("ServiceImpl deleteUserWithCM");
 		
 		Optional<User> userChk = Optional.ofNullable(redisCacheManagerRepository.findById(user.getUserId()))
 				.orElseThrow(() -> new UserNotFoundException("해당 유저를 찾을 수 없습니다!"));
 		
 		if(userChk.isPresent()) {
-			user = redisCacheManagerRepository.save(userChk.get());
+			redisCacheManagerRepository.deleteById(userChk.get().getUserId());
 		}
-		
-		return user;
 	}
 
 	@Override
@@ -106,10 +104,10 @@ public class RedisCacheManagerServiceImpl implements RedisCacheManagerService {
 
 	@Override
 	@Cacheable(value = "User", key = "#userId", unless = "#result == null", cacheManager = "cacheManager")
-	public User getUserDetailByIdWithCM(User user) throws UserNotFoundException {
+	public User getUserDetailByIdWithCM(String userId) throws UserNotFoundException {
 		log.info("ServiceImpl getUserDetailByIdWithCM");
 		
-		Optional<User> userChk = Optional.ofNullable(redisCacheManagerRepository.findById(user.getUserId()))
+		Optional<User> userChk = Optional.ofNullable(redisCacheManagerRepository.findById(userId))
 				.orElseThrow(() -> new UserNotFoundException("해당 유저를 찾을 수 없습니다!"));
 		
 		log.info("ServiceImpl getUserOne {}", userChk.get());
