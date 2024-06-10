@@ -13,15 +13,13 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import com.example.redis.dto.User;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
-import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import lombok.RequiredArgsConstructor;
 
@@ -59,15 +57,15 @@ public class RedisConfig {
 	@Bean
 	CacheManager cacheManager(RedisConnectionFactory cf) {
 		
-		RedisCacheConfiguration productConfig = RedisCacheConfiguration.defaultCacheConfig()
+		RedisCacheConfiguration redisCacheConfig = RedisCacheConfiguration.defaultCacheConfig()
 				.computePrefixWith(cacheName -> "prefix::" + cacheName + "::") // Cache Key prefix 설정
 				.disableCachingNullValues() // 캐싱할때 null 값을 비허용
 				.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())) // Key를 직렬화 할 때 사용하는 규칙
-				.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<>(User.class))); // Value를 직렬화 할때 사용하는 규칙
+				.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())); // Value를 직렬화 할때 사용하는 규칙
 		
 		return RedisCacheManager.RedisCacheManagerBuilder
 				.fromConnectionFactory(cf)
-				.withCacheConfiguration("User", productConfig)
+				.cacheDefaults(redisCacheConfig)
 				.build();
 	}
 	
