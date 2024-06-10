@@ -41,23 +41,4 @@ RAM은 휘발성이지만 이를 막기 위한 백업 과정이 존재한다.
 
 3. Jackson2JsonRedisSerializer
 
-``Jackson2JsonRedisSerializer``는 @class 필드를 포함하지 않고 Json으로 저장해줍니다. 하지만 항상 Class Type정보를 Serializer에 함께 지정해주어야 합니다.
-
-4. StringRedisSerializer
-
-``StringRedisSerializer``는 String 값을 그대로 저장하 Serializer이다.
-
-### RedisCacheManager
-
-1. INSERT
-
-**CONSOLE**
-
-![RC_INSERT_CONSOLE](./images/RC_INSERT_CONSOLE.png)
-- ``sin123``이 포함된 키값을 저장 항상 메서드를 실행 (CachePut)
-- ``all`` 키값으로 저장된 리스트가 있다면 삭제
-
-**REDIS_CLI**
-
-![RC_INSERT_REDIS_CLI](./images/RC_INSERT_REDIS_CLI.png)
-- 모든 키 값 조회 후 ``prefix::User::sin123`` 내부 정보 조회
+``Jackson2JsonRedisSerializer`제
