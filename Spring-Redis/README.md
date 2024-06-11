@@ -47,3 +47,64 @@ RAM은 휘발성이지만 이를 막기 위한 백업 과정이 존재한다.
 
 ``StringRedisSerializer``는 String 값을 그대로 저장하는 Serializer이다.
 
+### RedisCacheManager
+
+1. INSERT
+
+**CONSOLE**
+
+![RC_INSERT_CONSOLE](./images/RC_INSERT_CONSOLE.png)
+
+- ``sin123``, ``신민수`` DB 저장 및 ``sin123`` 키값으로 캐시 저장. @CachePut 실행결과를 RedisCache에 저장 항상 메서드의 로직을 실행한다. ``all`` 캐시가 있다면 삭제
+
+**REDIS_CLI**
+
+![RC_INSERT_REDIS_CLI](./images/RC_INSERT_REDIS_CLI.png)
+
+- 전체 키 값 조회 이후 ``sin123`` 키 값 내부 정보 조회
+
+2. GETLIST
+
+**CONSOLE**
+
+![RC_GETLIST_CONSOLE_FIRST](./images/RC_GETLIST_CONSOLE_FIRST.png)
+
+- 첫 조회시 ``all`` 키 값에 조회된 리스트 저장. 조회 당시 해당 키 값이 없는 상태이기 때문에 ServiceImpl 까지 수행
+
+**REDIS_CLI**
+
+![RC_GETLIST_REDIS_CLI](./images/RC_GETLIST_REDIS_CLI.png)
+
+- 전체 키 값 조회 이후 ``all`` 키 값 내부 리스트 정보 조회
+
+**CONSOLE 2**
+
+![RC_GETLIST_CONSOLE_SECOND](./images/RC_GETLIST_CONSOLE_SECOND.png)
+
+- 두번째 조회시 ServiceImpl을 거치지 않고 캐시에 저장된 리스트 정보 조회
+
+3. GETDETAIL
+
+![RC_GETDETAIL_CONSOLE](./images/RC_GETDETAIL_CONSOLE.png)
+
+- ``sin123`` 키 값은 INSERT 과정에서 저장되었으므로 ServiceImpl 수행하지 않고 캐시에 저장된 정보 조회
+
+4. UPDATE
+
+![RC_UPDATE_CONSOLE](./images/RC_UPDATE_CONSOLE.png)
+
+- ``sin123`` 유저 이름 From ``신민수`` To ``신민기`` @CachePut 실행결과를 RedisCache에 저장 항상 메서드의 로직을 실행한다. ``all`` 캐시가 있다면 삭제
+
+![RC_UPDATE_REDIS_CLI](./images/RC_UPDATE_REDIS_CLI.png)
+
+- 전체 키 값 조회 이후 ``sin123`` 수정된 내부 정보 조회
+
+5. DELETE
+
+![RC_DELETE_CONSOLE](./images/RC_DELETE_CONSOLE.png)
+
+- ``sin123`` 키 값을 삭제 @CachePut 실행결과를 RedisCache에 저장 항상 메서드의 로직을 실행한다. ``all`` 캐시가 있다면 삭제
+
+![RC_DELETE_REDIS_CLI](./images/RC_DELETE_REDIS_CLI.png)
+
+- 삭제 이전 전체 키 값 -> 삭제 이후 전체 키 값
