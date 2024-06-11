@@ -85,15 +85,21 @@ RAM은 휘발성이지만 이를 막기 위한 백업 과정이 존재한다.
 
 3. GETDETAIL
 
+**CONSOLE**
+
 ![RC_GETDETAIL_CONSOLE](./images/RC_GETDETAIL_CONSOLE.png)
 
 - ``sin123`` 키 값은 INSERT 과정에서 저장되었으므로 ServiceImpl 수행하지 않고 캐시에 저장된 정보 조회
 
 4. UPDATE
 
+**CONSOLE**
+
 ![RC_UPDATE_CONSOLE](./images/RC_UPDATE_CONSOLE.png)
 
 - ``sin123`` 유저 이름 From ``신민수`` To ``신민기`` @CachePut 실행결과를 RedisCache에 저장 항상 메서드의 로직을 실행한다. ``all`` 캐시가 있다면 삭제
+
+**REDIS_CLI**
 
 ![RC_UPDATE_REDIS_CLI](./images/RC_UPDATE_REDIS_CLI.png)
 
@@ -101,9 +107,13 @@ RAM은 휘발성이지만 이를 막기 위한 백업 과정이 존재한다.
 
 5. DELETE
 
+**CONSOLE**
+
 ![RC_DELETE_CONSOLE](./images/RC_DELETE_CONSOLE.png)
 
 - ``sin123`` 키 값을 삭제 @CachePut 실행결과를 RedisCache에 저장 항상 메서드의 로직을 실행한다. ``all`` 캐시가 있다면 삭제
+
+**REDIS_CLI**
 
 ![RC_DELETE_REDIS_CLI](./images/RC_DELETE_REDIS_CLI.png)
 
