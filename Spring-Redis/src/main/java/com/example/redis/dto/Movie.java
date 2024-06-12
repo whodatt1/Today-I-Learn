@@ -33,8 +33,6 @@ public class Movie implements Serializable {
 	
 	private String movieName;
 	
-	private String delYn;
-	
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@CreatedDate

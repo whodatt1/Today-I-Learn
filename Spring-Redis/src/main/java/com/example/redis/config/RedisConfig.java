@@ -38,7 +38,6 @@ import lombok.RequiredArgsConstructor;
 @EnableRedisRepositories
 public class RedisConfig {
 	
-	private final ObjectMapper objectMapper;
 	private final RedisProperties redisProperties;
 	
 	// 레디스 구조에 맞는 서버 정보를 추가
@@ -74,8 +73,12 @@ public class RedisConfig {
 	RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory cf) {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(cf);
+		
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
-		redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer(objectMapper));
+		redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+		
+		redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+		redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
 		
 		return redisTemplate;
 	}

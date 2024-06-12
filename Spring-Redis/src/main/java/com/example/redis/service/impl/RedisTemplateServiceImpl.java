@@ -1,7 +1,6 @@
 package com.example.redis.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,14 +11,15 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.example.redis.dto.Movie;
-import com.example.redis.dto.User;
 import com.example.redis.exception.movie.MovieExistsException;
 import com.example.redis.exception.movie.MovieNotFoundException;
 import com.example.redis.repo.RedisTemplateRepository;
 import com.example.redis.service.RedisTemplateService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RedisTemplateServiceImpl implements RedisTemplateService {
@@ -61,10 +61,12 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 		// Redis 데이터 체크
 		Optional<Movie> movieChkRedis = Optional.ofNullable(hashOperations.get("Movie", movie.getMovieCd()));
 		
+		movieChkDB.get().setMovieName(movie.getMovieName());
+		
 		if (!movieChkDB.isPresent() && !movieChkRedis.isPresent()) {
 			throw new MovieNotFoundException("Redis와 DB에 존재하지 않는 영화입니다.");
 		} else {
-			Movie jpaMovie = redisTemplateRepository.save(movie);
+			Movie jpaMovie = redisTemplateRepository.save(movieChkDB.get());
 			
 			hashOperations.put(hashReference, movie.getMovieCd(), jpaMovie);
 			
@@ -73,7 +75,7 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 	}
 
 	@Override
-	public Movie deleteMovieWithTemp(Movie movie) throws MovieNotFoundException {
+	public void deleteMovieWithTemp(Movie movie) throws MovieNotFoundException {
 		
 		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
 		// DB 데이터 체크
@@ -84,32 +86,33 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 		if (!movieChkDB.isPresent() && !movieChkRedis.isPresent()) {
 			throw new MovieNotFoundException("Redis와 DB에 존재하지 않는 영화입니다.");
 		} else {
-			Movie jpaMovie = redisTemplateRepository.save(movie);
+			redisTemplateRepository.deleteById(movie.getMovieCd());
 			
-			hashOperations.put(hashReference, movie.getMovieCd(), jpaMovie);
-			
-			return jpaMovie;
+			hashOperations.delete(hashReference, movie.getMovieCd());
 		}
 	}
 
 	@Override
-	public List<Movie> getMovieListAllWithTemp(HashMap<String, Object> params) {
+	public List<Movie> getMovieListAllWithTemp() {
 		
 		// 이부분도 그냥 Cache에 있으면 캐시 데이터 가져오고 없으면 DB 데이터 가져오도록..
-		
-		String delYn = String.valueOf(params.get("delYn"));
 		
 		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
 		Map<String, Movie> entries = hashOperations.entries(hashReference);
 		List<Movie> movieList = entries.values()
 									   .stream()
-									   .filter(movie -> movie.getDelYn().equals(delYn))
 									   .collect(Collectors.toList());
 		
 		if (movieList.size() > 0) {
+			
+			log.info("List from Redis");
+			
 			return movieList;
 		} else {
-			Iterable<Movie> all = redisTemplateRepository.findAllByDelYn(params);
+			
+			log.info("List from DB");
+			
+			Iterable<Movie> all = redisTemplateRepository.findAll();
 			
 			List<Movie> mList = new ArrayList<>();
 			
@@ -124,21 +127,24 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
 	public Movie getMovieDetailByIdWithTemp(String movieCd) throws MovieNotFoundException {
 		
 		HashOperations<String, String, Movie> hashOperations = redisTemplate.opsForHash();
-		// // DB 데이터 가져오기
-		Optional<Movie> movieDetDB = redisTemplateRepository.findById(movieCd);
 		// Redis 데이터 가져오기
 		Optional<Movie> movieDetRedis = Optional.ofNullable(hashOperations.get(hashReference, movieCd));
 		
 		// Redis에 저장된 값이 있다면 Redis에서 가져옴
-		if (!movieDetRedis.isPresent() && !movieDetDB.isPresent()) {
-			throw new MovieNotFoundException("Redis와 DB에 존재하지 않는 영화입니다.");
+		if (movieDetRedis.isPresent()) {
+			log.info("Detail from Redis");
+			
+			return movieDetRedis.get();
 		} else {
-			if (movieDetRedis.isPresent()) {
-				System.out.println("여기ㅣㅣㅣ");
-				return movieDetRedis.get();
-			} else {
-				return movieDetDB.get();
+			log.info("Detail from DB");
+			// DB 데이터 가져오기
+			Optional<Movie> movieDetDB = redisTemplateRepository.findById(movieCd);
+			
+			if (!movieDetDB.isPresent()) {
+				throw new MovieNotFoundException("DB에 존재하지 않는 영화입니다.");
 			}
+			
+			return movieDetDB.get();
 		}
 	}
 

@@ -29,11 +29,6 @@
 			
 			<div class="py-3">
 		        <div class="col-md-6 pb-3">
-					<select class="form-select form-select-sm mb-3" id="list-delYn">
-						  <option value="" selected>삭제 여부 선택</option>
-						  <option value="Y">Y</option>
-						  <option value="N">N</option>
-					</select>
 	              	<button type="button" class="btn btn-primary" th:onclick="rcView.getMovieList()">리스트</button>
             	</div>
             	
@@ -61,8 +56,7 @@
 					
 					const movie = {
 						movieCd : movieCd,
-						movieName : movieName,
-						delYn : "N"
+						movieName : movieName
 					}
 					
 					$.ajax({
@@ -89,21 +83,10 @@
 					console.log("리스트");
 					$("[name='movie-item-add']").remove();
 					
-					const delYn = $("#list-delYn option:selected").val();
-					
-					if (delYn == "") {
-						alert("삭제 여부를 선택해주세요!");
-					}
-					
-					const params = {
-						delYn : delYn
-					}
-					
 					$.ajax({
 						url: encodeURI('/redistemp/all'),
 						type: 'get',
 						dataType: 'json',
-						data: params,
 						async: true,
 						success : function(dataList) {
 							if (dataList != null) {
@@ -151,12 +134,12 @@
 							listRow.find("#movie-mod").on("click", data, function(event) {
 								event.stopImmediatePropagation();
 								
-								const modListRow = $("#" + data.userId);
+								const modListRow = $("#" + data.movieCd);
 								const modMovieName = modListRow.find("#movie-item-name").val();
 								
 								const movie = {
 									movieCd : event.data.movieCd,
-									movieName : modMovieName,
+									movieName : modMovieName
 								};
 								
 								$.ajax({
@@ -183,16 +166,15 @@
 								const modListRow = $("#" + data.movieCd);
 								
 								const movie = {
-									movieCd : event.data.movieCd,
-									delYn : "Y"
+									movieCd : event.data.movieCd
 								};
 								
 								$.ajax({
 									url: '/redistemp/del',
-									type: 'put',
+									type: 'delete',
 									contentType: 'application/json; charset=utf-8',
 									dataType: 'json',
-									data: JSON.stringify(user),
+									data: JSON.stringify(movie),
 									async: true,
 									success : function() {
 										console.log("성공");
