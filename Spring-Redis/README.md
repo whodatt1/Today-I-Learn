@@ -118,3 +118,49 @@ RAM은 휘발성이지만 이를 막기 위한 백업 과정이 존재한다.
 ![RC_DELETE_REDIS_CLI](./images/RC_DELETE_REDIS_CLI.png)
 
 - 삭제 이전 전체 키 값 -> 삭제 이후 전체 키 값
+
+### RedisTemplate
+
+**HASH로 저장**
+
+1. INSERT
+
+**REDIS_CLI**
+
+![RT_INSERT_REDIS_CLI](./images/RC_INSERT_REDIS_CLI.png)
+
+- Movie 키 값에 필드 값 ``A123``, ``B123`` 저장 후 전체 키 조회 후 해당 Movie 키 조회
+
+2. GETLIST
+
+**CONSOLE**
+
+![RT_GETLIST_CONSOLE](./images/RT_GETLIST_CONSOLE.png)
+
+- Movie 키 값 엔트리를 조회하였을 때 데이터가 존재하여 DB가 아닌 REDIS를 통하여 조회
+
+3. GETDETAIL
+
+**CONSOLE**
+
+![RT_GETDETAIL_CONSOLE](./images/RT_GETDETAIL_CONSOLE.png)
+
+- ``B123`` 필드 값을 조회하였을 때 데이터가 존재하여 DB가 아닌 REDIS를 통하여 조회
+
+4. UPDATE
+
+**REDIS_CLI**
+
+![RT_UPDATE_REDIS_CLI](./images/RT_UPDATE_REDIS_CLI.png)
+
+- ``B123`` 필드의 movieName을 From ``개미`` To ``개미굴`` 로 변경
+- Movie 키 값을 재 조회
+
+5. DELETE
+
+**REDIS_CLI**
+
+![RT_DELETE_REDIS_CLI](./images/RT_DELETE_REDIS_CLI.png)
+
+- ``B123`` 필드를 삭제
+- Movie 키 값을 재 조회
