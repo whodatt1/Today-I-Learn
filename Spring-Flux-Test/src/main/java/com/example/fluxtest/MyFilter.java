@@ -33,6 +33,7 @@ public class MyFilter implements Filter {
 		// 1. WebFlux에선 비동기 단일 쓰레드로 동작
 		// 2. MVC에서는 사용자가 들어올때마다 쓰레드가 만들어지며 동작
 		// Reactive Stream 라이브러리를 쓰면 표준을 지켜서 응답 가능하다.
+		// 소비가 끝나면 종료된다.
 		PrintWriter out = servletResponse.getWriter();
 		for (int i = 0; i < 5; i++) {
 			out.print("응답 : " + i + "\n");
@@ -45,6 +46,7 @@ public class MyFilter implements Filter {
 		}
 		
 		// SSE Emitter 라이브러리를 사용하면 편하게 사용 가능하다.
+		// 소비가 끝나도 종료되지 않는다.
 		while (true) {
 			try {
 				if (eventNotify.getChange()) {

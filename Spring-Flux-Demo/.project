@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Spring-Reactive-Test</name>
-	<comment>Project Spring-Reactive-Test created by Buildship.</comment>
+	<name>Spring-Flux-Demo</name>
+	<comment>Project Spring-Flux-Demo created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>
