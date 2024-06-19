@@ -1,6 +1,5 @@
 package com.example.fluxdemo.domain;
 
-import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
