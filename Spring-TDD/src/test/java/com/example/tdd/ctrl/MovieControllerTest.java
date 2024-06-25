@@ -13,10 +13,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.tdd.dto.MovieDto;
 import com.example.tdd.service.MovieService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 @WebMvcTest(MovieController.class)
 public class MovieControllerTest {
@@ -54,10 +57,35 @@ public class MovieControllerTest {
 		verify(movieService).getMovieDetailByCd(movieCd);
 	}
 	
-	// http://localhost:8080/api/movie-api/movie/{movieCd}
+	// http://localhost:8080/api/movie-api/movie
 	@Test
-	@DisplayName("Get movie test")
+	@DisplayName("Insert movie test")
 	void insertMovieTest() throws Exception {
 		
+		given(movieService.insertMovie(new MovieDto("B123", "Passion", 13000, 999))).willReturn(
+				new MovieDto("B123", "Passion", 13000, 999));
+		
+		MovieDto movieDto = MovieDto.builder().movieCd("B123").movieNm("Passion")
+									.ticketPrice(13000).seat(999).build();
+		
+		Gson gson = new Gson();
+		// movieDto를 JSON 형태로 변경
+		String content = gson.toJson(movieDto);
+		
+		// 아래 코드로 JSON 형태 변경 작업을 대체 가능하다.
+		String json = new ObjectMapper().writeValueAsString(movieDto);	
+		
+		mockMvc.perform(
+				post("/api/movie-api/movie")
+					.content(content)
+					.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.movieCd").exists())
+			.andExpect(jsonPath("$.movieNm").exists())
+			.andExpect(jsonPath("$.ticketPrice").exists())
+			.andExpect(jsonPath("$.seat").exists())
+			.andDo(print());
+		
+		verify(movieService).insertMovie(movieDto);
 	}
 }
