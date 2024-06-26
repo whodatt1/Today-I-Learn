@@ -13,7 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.example.tdd.dto.MovieDto;
+import com.example.tdd.dto.Movie;
 import com.example.tdd.repo.MovieRepository;
 
 @ExtendWith(SpringExtension.class)
@@ -31,9 +31,9 @@ public class MovieServiceImplTest {
 		
 		// given
 		Mockito.when(movieRepository.findById("A123"))
-			   .thenReturn(Optional.ofNullable(new MovieDto("A123", "Escape", 11000, 999)));
+			   .thenReturn(Optional.ofNullable(new Movie("A123", "Escape", 11000, 999)));
 		
-		MovieDto movieDto = movieServiceImpl.getMovieDetailByCd("A123");
+		Movie movieDto = movieServiceImpl.getMovieDetailByCd("A123");
 		
 		Assertions.assertEquals(movieDto.getMovieCd(), "A123");
 		Assertions.assertEquals(movieDto.getMovieNm(), "Escape");
@@ -47,16 +47,16 @@ public class MovieServiceImplTest {
 	public void insertMovieTest() {
 		
 		// given
-		Mockito.when(movieRepository.save(new MovieDto("B123", "Passion", 13000, 999)))
-			   .thenReturn(new MovieDto("B123", "Passion", 13000, 999));
+		Mockito.when(movieRepository.save(new Movie("B123", "Passion", 13000, 999)))
+			   .thenReturn(new Movie("B123", "Passion", 13000, 999));
 		
-		MovieDto movieDto = movieServiceImpl.insertMovie(new MovieDto("B123", "Passion", 13000, 999));
+		Movie movie = movieServiceImpl.insertMovie(new Movie("B123", "Passion", 13000, 999));
 		
-		Assertions.assertEquals(movieDto.getMovieCd(), "B123");
-		Assertions.assertEquals(movieDto.getMovieNm(), "Passion");
-		Assertions.assertEquals(movieDto.getTicketPrice(), 13000);
-		Assertions.assertEquals(movieDto.getSeat(), 999);
+		Assertions.assertEquals(movie.getMovieCd(), "B123");
+		Assertions.assertEquals(movie.getMovieNm(), "Passion");
+		Assertions.assertEquals(movie.getTicketPrice(), 13000);
+		Assertions.assertEquals(movie.getSeat(), 999);
 		
-		verify(movieRepository).save(new MovieDto("B123", "Passion", 13000, 999));
+		verify(movieRepository).save(new Movie("B123", "Passion", 13000, 999));
 	}
 }

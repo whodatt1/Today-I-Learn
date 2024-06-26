@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.tdd.dto.MovieDto;
+import com.example.tdd.dto.Movie;
 import com.example.tdd.repo.MovieRepository;
 import com.example.tdd.service.MovieService;
 
@@ -20,14 +20,14 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public MovieDto getMovieDetailByCd(String movieCd) {
-		Optional<MovieDto> movieDetail = movieRepository.findById(movieCd);
+	public Movie getMovieDetailByCd(String movieCd) {
+		Optional<Movie> movieDetail = movieRepository.findById(movieCd);
 		return movieDetail.get();
 	}
 
 	@Override
-	public MovieDto insertMovie(MovieDto movieDto) {
-		MovieDto insertMovie = movieRepository.save(movieDto);
+	public Movie insertMovie(Movie movieDto) {
+		Movie insertMovie = movieRepository.save(movieDto);
 		return insertMovie;
 	}
 	

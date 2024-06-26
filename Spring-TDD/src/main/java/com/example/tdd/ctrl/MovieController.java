@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.tdd.dto.MovieDto;
+import com.example.tdd.dto.Movie;
 import com.example.tdd.service.MovieService;
 
 @RestController
@@ -24,14 +24,14 @@ public class MovieController {
 	}
 	
 	@GetMapping("/movie/{movieCd}")
-	public MovieDto getMovieDetailByCd(@PathVariable("movieCd") String movieCd) {
-		MovieDto response = movieService.getMovieDetailByCd(movieCd);
+	public Movie getMovieDetailByCd(@PathVariable("movieCd") String movieCd) {
+		Movie response = movieService.getMovieDetailByCd(movieCd);
 		return response;
 	}
 	
 	@PostMapping("/movie")
-	public MovieDto insertMovie(@RequestBody MovieDto movieDto) {
-		MovieDto response = movieService.insertMovie(movieDto);
+	public Movie insertMovie(@RequestBody Movie movieDto) {
+		Movie response = movieService.insertMovie(movieDto);
 		return response;
 	}
 }

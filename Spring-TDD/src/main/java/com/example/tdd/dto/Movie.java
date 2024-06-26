@@ -1,5 +1,6 @@
 package com.example.tdd.dto;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,11 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Builder
-public class MovieDto {
+public class Movie {
 	
 	@Id
 	private String movieCd;

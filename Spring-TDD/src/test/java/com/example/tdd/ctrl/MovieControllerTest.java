@@ -16,7 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.tdd.dto.MovieDto;
+import com.example.tdd.dto.Movie;
 import com.example.tdd.service.MovieService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -37,7 +37,7 @@ public class MovieControllerTest {
 		
 		// given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드
 		given(movieService.getMovieDetailByCd("A123")).willReturn(
-				new MovieDto("A123", "Escape", 11000, 999));
+				new Movie("A123", "Escape", 11000, 999));
 		
 		String movieCd = "A123";
 		
@@ -62,18 +62,18 @@ public class MovieControllerTest {
 	@DisplayName("Insert movie test")
 	void insertMovieTest() throws Exception {
 		
-		given(movieService.insertMovie(new MovieDto("B123", "Passion", 13000, 999))).willReturn(
-				new MovieDto("B123", "Passion", 13000, 999));
+		given(movieService.insertMovie(new Movie("B123", "Passion", 13000, 999))).willReturn(
+				new Movie("B123", "Passion", 13000, 999));
 		
-		MovieDto movieDto = MovieDto.builder().movieCd("B123").movieNm("Passion")
+		Movie movie = Movie.builder().movieCd("B123").movieNm("Passion")
 									.ticketPrice(13000).seat(999).build();
 		
 		Gson gson = new Gson();
 		// movieDto를 JSON 형태로 변경
-		String content = gson.toJson(movieDto);
+		String content = gson.toJson(movie);
 		
 		// 아래 코드로 JSON 형태 변경 작업을 대체 가능하다.
-		String json = new ObjectMapper().writeValueAsString(movieDto);	
+		String json = new ObjectMapper().writeValueAsString(movie);	
 		
 		mockMvc.perform(
 				post("/api/movie-api/movie")
@@ -86,6 +86,6 @@ public class MovieControllerTest {
 			.andExpect(jsonPath("$.seat").exists())
 			.andDo(print());
 		
-		verify(movieService).insertMovie(movieDto);
+		verify(movieService).insertMovie(movie);
 	}
 }

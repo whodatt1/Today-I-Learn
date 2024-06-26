@@ -1,9 +1,9 @@
 package com.example.tdd.service;
 
-import com.example.tdd.dto.MovieDto;
+import com.example.tdd.dto.Movie;
 
 public interface MovieService {
 	
-	MovieDto getMovieDetailByCd(String movieCd);
-	MovieDto insertMovie(MovieDto movieDto);
+	Movie getMovieDetailByCd(String movieCd);
+	Movie insertMovie(Movie movieDto);
 }
